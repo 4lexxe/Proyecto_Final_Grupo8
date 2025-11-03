@@ -1,0 +1,135 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+.login img {
+    margin-bottom: -100px;
+    z-index: 1;
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+}
+
+.formulario {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    border: 5px solid #8f4790;
+    border-radius: 10px;
+    padding: 30px 60px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    position: relative;
+}
+
+.formulario input,
+.formulario label,
+.formulario button {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+}
+
+.formulario input {
+    height: 40px;
+    border: 2px solid #8f4790;
+    border-radius: 10px;
+    padding: 0 8px;
+    font-size: 16px;
+}
+
+.formulario label {
+    font-size: 14px;
+}
+
+.formulario button {
+    margin-top: 20px;
+    cursor: pointer;
+    border: none;
+    height: 40px;
+    background-color: #824283;
+    box-shadow: 1px 1px 2px #000;
+    color: #fff;
+    font-size: 16px;
+}
+
+.formulario button:hover {
+    background-color: #8f4790;
+}
+
+.registro-link {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+.registro-link a {
+    color: #8f4790;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.registro-link a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .login img {
+        margin-bottom: -80px;
+        max-width: 80%;
+    }
+
+    .formulario {
+        padding: 25px 30px;
+        border-width: 3px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login {
+        padding: 10px;
+        align-items: center;
+        justify-content: center;
+        margin-top: -100px;
+    }
+
+    .login img {
+        margin-bottom: -60px;
+        max-width: 70%;
+    }
+
+    .formulario {
+        padding: 20px 25px;
+        border-width: 3px;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .formulario input {
+        height: 35px;
+        font-size: 14px;
+    }
+
+    .formulario label {
+        font-size: 13px;
+    }
+
+    .formulario button {
+        height: 35px;
+        font-size: 14px;
+    }
+
+    .registro-link {
+        font-size: 12px;
+    }
+}
+
