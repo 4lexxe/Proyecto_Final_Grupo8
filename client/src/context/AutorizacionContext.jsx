@@ -1,8 +1,12 @@
-import { useState, useMemo, useCallback, useEffect } from "react";
-import { AutorizacionesContext } from "./AutorizacionContextValue";
+import { createContext, useState, useMemo, useCallback, useEffect } from "react";
+
 import usuariosGuardados from "../assets/data/usuarios.json";
 
-// - Componente proveedor del contexto de Autenticacion
+// Crear el contexto - solo contexto
+
+export const AutorizacionesContext = createContext(null);
+
+// Componente proveedor del contexto de Autenticacion - solo componente
 
 export const AutorizacionesProvider = ({ children }) => {
     //controla el estado del usuario
@@ -18,6 +22,11 @@ export const AutorizacionesProvider = ({ children }) => {
     }); 
 
 
+    //const [isLoading, setIsLoading] = useState(false);
+
+    //const [token, setToken] = useState(null);
+
+
     const login = useCallback((credentials) => {
         //setIsLoading(true);
 
@@ -28,8 +37,8 @@ export const AutorizacionesProvider = ({ children }) => {
                     u.password === credentials.password     
             );
         
-        if (usuarioEncontrado) { //tipo de usuario <-- si es admin o user
-            const { password: _password, ...userWithoutPassword } = usuarioEncontrado;
+        if (usuarioEncontrado) { //tipo de usuario
+            const { /* password, */ ...userWithoutPassword } = usuarioEncontrado;
             setUser(userWithoutPassword); //quita el password para que no sea visible a los childrens
             //setIsLoading(false);
             return { success: true }; //Retorna exito 
