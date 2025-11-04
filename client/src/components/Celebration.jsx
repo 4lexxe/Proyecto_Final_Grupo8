@@ -4,7 +4,7 @@ import '../assets/css/celebration.css';
 const Celebration = ({ onComplete }) => {
     useEffect(() => {
         // Reproducir sonido
-        const audio = new Audio('/src/assets/sound/sonido_registro_exitoso.mp3');
+        const audio = new Audio('/src/assets/sounds/sonido_registro_exitoso.mp3');
         audio.play().catch(error => console.log('Error al reproducir sonido:', error));
 
         // Redirigir después de 3 segundos
