@@ -115,8 +115,7 @@ const Login = () => {
 
     const handleRegistrarse = (e) => {
         e.preventDefault();
-        // Aquí puedes redirigir a la página de registro cuando la crees
-        console.log('Ir a registro');
+        navigate('/register');
     };
 
     return (

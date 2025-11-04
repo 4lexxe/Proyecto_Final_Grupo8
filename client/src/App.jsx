@@ -7,6 +7,7 @@ import OtraPagina from "./pages/OtraPagina.jsx";
 import Home from "./pages/Home.jsx";
 import { Games } from "./pages/Games.jsx";
 import Login from "./pages/login/Login.jsx";
+import Register from "./pages/register/Register.jsx";
 import ProtectorRutas from "./components/ProtectorRutas.jsx";
 import NoAutorizados from "./pages/NoAutorizados.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -14,8 +15,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   return (
     <Routes>
-      {/* Ruta de login sin Layout (pantalla completa) */}
+      {/* Rutas de autenticación sin Layout (pantalla completa) */}
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       {/* Rutas con Layout */}
       <Route path="/" element={<Layout />}>
