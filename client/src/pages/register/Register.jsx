@@ -9,6 +9,7 @@ const Register = () => {
     const [formData, setFormData] = useState({ 
         nombres: '',
         apellidos: '',
+        edad: '',
         username: '', 
         password: '', 
         confirmPassword: '',
@@ -43,6 +44,10 @@ const Register = () => {
         setFormData({ ...formData, apellidos: e.target.value });
     };
 
+    const handleEdadChange = (e) => {
+        setFormData({ ...formData, edad: e.target.value });
+    };
+
     const handleClaveChange = (e) => {
         setFormData({ ...formData, password: e.target.value });
     };
@@ -70,8 +75,12 @@ const Register = () => {
 
     const handleContinuarNombres = (e) => {
         e.preventDefault();
-        if (!formData.nombres || !formData.apellidos) {
-            setError('Por favor completa nombres y apellidos');
+        if (!formData.nombres || !formData.apellidos || !formData.edad) {
+            setError('Por favor completa todos los campos');
+            return;
+        }
+        if (formData.edad < 1 || formData.edad > 120) {
+            setError('Por favor ingresa una edad válida');
             return;
         }
         setError('');
@@ -143,6 +152,7 @@ const Register = () => {
                     formData={formData}
                     onNombresChange={handleNombresChange}
                     onApellidosChange={handleApellidosChange}
+                    onEdadChange={handleEdadChange}
                     onClaveChange={handleClaveChange}
                     onConfirmClaveChange={handleConfirmClaveChange}
                     onNivelInglesChange={handleNivelInglesChange}

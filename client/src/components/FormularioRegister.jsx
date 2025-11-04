@@ -3,6 +3,7 @@ const FormularioRegister = ({
     formData,
     onNombresChange,
     onApellidosChange,
+    onEdadChange,
     onClaveChange,
     onConfirmClaveChange,
     onNivelInglesChange,
@@ -41,7 +42,7 @@ const FormularioRegister = ({
         );
     }
 
-    // Paso 2: Nombres y Apellidos
+    // Paso 2: Nombres, Apellidos y Edad
     if (paso === 2) {
         return (
             <form className="formulario" onSubmit={onContinuarNombres}>
@@ -63,6 +64,17 @@ const FormularioRegister = ({
                     placeholder="Tus apellidos"
                     autoComplete="off"
                     onChange={onApellidosChange}
+                />
+
+                <label htmlFor="edad">Edad</label>
+                <input
+                    id="edad"
+                    type="number"
+                    placeholder="Tu edad"
+                    min="1"
+                    max="120"
+                    autoComplete="off"
+                    onChange={onEdadChange}
                 />
 
                 <button type="submit">Continuar</button>
