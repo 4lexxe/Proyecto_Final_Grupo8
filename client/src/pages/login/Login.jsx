@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAutorizacion } from '../../hooks/useAutorizacion';
 import FormularioLogin from '../../components/FormularioLogin';
 import '../../assets/css/login.css';
 
 const Login = () => {
     const [monsterImg, setMonsterImg] = useState('/src/assets/img/idle/1.png');
     const [seguirPunteroMouse, setSeguirPunteroMouse] = useState(true);
+    const [formData, setFormData] = useState({ username: '', password: '' });
+    const [error, setError] = useState('');
+    
+    const { login } = useAutorizacion();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleMouseMove = (m) => {
@@ -37,7 +44,10 @@ const Login = () => {
     };
 
     const handleUsuarioKeyUp = (e) => {
-        const usuario = e.target.value.length;
+        const value = e.target.value;
+        setFormData({ ...formData, username: value });
+        
+        const usuario = value.length;
         if (usuario >= 0 && usuario <= 5) {
             setMonsterImg('/src/assets/img/read/1.png');
         } else if (usuario >= 6 && usuario <= 14) {
@@ -47,6 +57,10 @@ const Login = () => {
         } else {
             setMonsterImg('/src/assets/img/read/4.png');
         }
+    };
+
+    const handleClaveChange = (e) => {
+        setFormData({ ...formData, password: e.target.value });
     };
 
     const handleClaveFocus = () => {
@@ -77,32 +91,50 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setError('');
         setSeguirPunteroMouse(false);
         
-        // Mostrar celebración
-        setMonsterImg('/src/assets/img/celebrar/2.png');
-
-        // Aquí puedes agregar tu lógica de login
-        console.log('Login enviado');
+        // Intentar login
+        const result = login(formData);
         
-        // Volver al estado normal después de 2 segundos
-        setTimeout(() => {
+        if (result.success) {
+            // Mostrar celebración
+            setMonsterImg('/src/assets/img/celebrar/2.png');
+            
+            // Redirigir al home después de la celebración
+            setTimeout(() => {
+                navigate('/');
+            }, 2000);
+        } else {
+            // Mostrar error
+            setError(result.message || 'Credenciales inválidas');
             setMonsterImg('/src/assets/img/idle/1.png');
             setSeguirPunteroMouse(true);
-        }, 2000);
+        }
+    };
+
+    const handleRegistrarse = (e) => {
+        e.preventDefault();
+        // Aquí puedes redirigir a la página de registro cuando la crees
+        console.log('Ir a registro');
     };
 
     return (
-        <div className="login">
-            <img src={monsterImg} id="monster" alt="Monster" />
-            <FormularioLogin
-                onUsuarioFocus={handleUsuarioFocus}
-                onUsuarioBlur={handleUsuarioBlur}
-                onUsuarioKeyUp={handleUsuarioKeyUp}
-                onClaveFocus={handleClaveFocus}
-                onClaveBlur={handleClaveBlur}
-                onSubmit={handleSubmit}
-            />
+        <div className="login-page">
+            <div className="login">
+                <img src={monsterImg} id="monster" alt="Monster" />
+                <FormularioLogin
+                    onUsuarioFocus={handleUsuarioFocus}
+                    onUsuarioBlur={handleUsuarioBlur}
+                    onUsuarioKeyUp={handleUsuarioKeyUp}
+                    onClaveFocus={handleClaveFocus}
+                    onClaveBlur={handleClaveBlur}
+                    onClaveChange={handleClaveChange}
+                    onSubmit={handleSubmit}
+                    onRegistrarse={handleRegistrarse}
+                    error={error}
+                />
+            </div>
         </div>
     );
 };

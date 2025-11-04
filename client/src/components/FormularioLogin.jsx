@@ -4,11 +4,15 @@ const FormularioLogin = ({
     onUsuarioKeyUp,
     onClaveFocus,
     onClaveBlur,
+    onClaveChange,
     onSubmit,
-    onRegistrarse 
+    onRegistrarse,
+    error 
 }) => {
     return (
         <form className="formulario" onSubmit={onSubmit}>
+            {error && <div className="error-message">{error}</div>}
+            
             <label htmlFor="usuario">Usuario</label>
             <input
                 id="usuario"
@@ -26,6 +30,7 @@ const FormularioLogin = ({
                 placeholder="*******"
                 onFocus={onClaveFocus}
                 onBlur={onClaveBlur}
+                onChange={onClaveChange}
             />
             <button type="submit">Login</button>
             <div className="registro-link">
