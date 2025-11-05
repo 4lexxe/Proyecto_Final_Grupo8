@@ -21,8 +21,8 @@
 }
 
 .celebration-monster {
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
     object-fit: contain;
     animation: bounce 0.6s ease-in-out infinite;
 }
@@ -103,11 +103,23 @@
     }
 }
 
+/* Tablet */
+@media (max-width: 768px) {
+    .celebration-monster {
+        width: 400px;
+        height: 400px;
+    }
+
+    .celebration-text {
+        font-size: 28px;
+    }
+}
+
 /* Mobile responsive */
 @media (max-width: 480px) {
     .celebration-monster {
-        width: 200px;
-        height: 200px;
+        width: 280px;
+        height: 280px;
     }
 
     .celebration-text {

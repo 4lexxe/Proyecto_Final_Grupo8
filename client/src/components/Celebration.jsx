@@ -1,19 +1,61 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import '../assets/css/celebration.css';
+import sonidoExito from '../assets/sounds/sonido_registro_exitoso.mp3';
 
 const Celebration = ({ onComplete }) => {
-    useEffect(() => {
-        // Reproducir sonido
-        const audio = new Audio('/src/assets/sounds/sonido_registro_exitoso.mp3');
-        audio.play().catch(error => console.log('Error al reproducir sonido:', error));
+    const [frameActual, setFrameActual] = useState(0);
+    const audioRef = useRef(null);
+    const totalFrames = 62;
+    const tiempoPorFrame = 80; // 80ms por frame (más lento y suave)
+    const tiempoTotalAnimacion = totalFrames * tiempoPorFrame; // ~4960ms (casi 5 segundos)
 
-        // Redirigir después de 3 segundos
+    useEffect(() => {
+        // Crear y reproducir sonido
+        const audio = new Audio(sonidoExito);
+        audioRef.current = audio;
+        
+        // Configurar audio antes de reproducir
+        audio.volume = 0.5;
+        
+        // Reproducir después de un pequeño delay para evitar problemas
+        const audioTimer = setTimeout(() => {
+            audio.play().catch(error => console.log('Error al reproducir sonido:', error));
+        }, 100);
+
+        let frameCount = 0;
+
+        // Animar frames del monstruo
+        const frameInterval = setInterval(() => {
+            frameCount++;
+            if (frameCount < totalFrames) {
+                setFrameActual(frameCount);
+            } else {
+                // Mantener el último frame
+                clearInterval(frameInterval);
+            }
+        }, tiempoPorFrame);
+
+        // Redirigir después de que termine la animación + 500ms extra
         const timer = setTimeout(() => {
             onComplete();
-        }, 3000);
+        }, tiempoTotalAnimacion + 500);
 
-        return () => clearTimeout(timer);
-    }, [onComplete]);
+        return () => {
+            clearInterval(frameInterval);
+            clearTimeout(timer);
+            clearTimeout(audioTimer);
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current = null;
+            }
+        };
+    }, [onComplete, totalFrames, tiempoPorFrame, tiempoTotalAnimacion]);
+
+    // Generar el nombre del archivo con padding
+    const getFramePath = (frameNumber) => {
+        const paddedNumber = String(frameNumber).padStart(2, '0');
+        return `/src/assets/img/monster_frames/sprite_monster${paddedNumber}.png`;
+    };
 
     // Generar confeti
     const confetti = Array.from({ length: 50 }, (_, i) => (
@@ -32,7 +74,7 @@ const Celebration = ({ onComplete }) => {
         <div className="celebration-overlay">
             <div className="celebration-content">
                 <img 
-                    src="/src/assets/img/celebrar/2.png" 
+                    src={getFramePath(frameActual)}
                     alt="Celebración" 
                     className="celebration-monster"
                 />
