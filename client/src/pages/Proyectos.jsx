@@ -9,11 +9,11 @@ const Proyectos = () => {
             titulo: 'Proyecto 2 - JavaScript Básico',
             descripcion: 'Ejercicios de JavaScript: cálculos, promedios, cadenas y formularios',
             ejercicios: [
-                { nombre: 'Ejercicio 1 - Comparar Números', path: '/proyectos/2/ejercicio1' },
-                { nombre: 'Ejercicio 2 - Calcular Promedio', path: '/proyectos/2/ejercicio2' },
-                { nombre: 'Ejercicio 3 - Procesamiento de Cadenas', path: '/proyectos/2/ejercicio3' },
-                { nombre: 'Ejercicio 4 - Formulario Estudiante', path: '/proyectos/2/ejercicio4' },
-                { nombre: 'Ejercicio 5 - Simulador de Salario', path: '/proyectos/2/ejercicio5' }
+                { nombre: 'Ejercicio 1 - Comparar Números', path: '/proyecto02/ejercicio1' },
+                { nombre: 'Ejercicio 2 - Calcular Promedio', path: '/proyecto02/ejercicio2' },
+                { nombre: 'Ejercicio 3 - Detector de Tecla 3', path: '/proyecto02/ejercicio3' },
+                { nombre: 'Ejercicio 4 - Formulario Estudiante', path: '/proyecto02/ejercicio4' },
+                { nombre: 'Ejercicio 5 - Simulador de Salario', path: '/proyecto02/ejercicio5' }
             ]
         },
         {

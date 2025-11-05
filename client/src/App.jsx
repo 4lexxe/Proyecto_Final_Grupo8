@@ -12,6 +12,11 @@ import ProtectorRutas from "./components/ProtectorRutas.jsx";
 import NoAutorizados from "./pages/NoAutorizados.jsx";
 import Proyecto04 from "./pages/Proyecto04.jsx";
 import Proyecto05 from "./pages/Proyecto05.jsx";
+import Ejercicio1 from './pages/Proyecto_02/ejercicio1/ejercicio1.jsx';
+import Ejercicio2 from './pages/Proyecto_02/Ejercicio2/ejercicio2.jsx';
+import Ejercicio3 from './pages/Proyecto_02/Ejercicio3/ejercicio3.jsx';
+import Ejercicio4 from './pages/Proyecto_02/Ejercicio4/ejercicio4.jsx';
+import SimuladorSalario from './pages/Proyecto_02/ejercicio5/SimuladorSalario.jsx';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -31,6 +36,11 @@ function App() {
         <Route path="/nosotros" element={<AboutUs />} />
         <Route path="/otraPagina" element={<OtraPagina />} />
         <Route path="/unauthorized" element={<NoAutorizados />} />
+        <Route path="/proyecto02/ejercicio1" element={<Ejercicio1 />} />
+        <Route path="/proyecto02/ejercicio2" element={<Ejercicio2 />} />
+        <Route path="/proyecto02/ejercicio3" element={<Ejercicio3 />} />
+        <Route path="/proyecto02/ejercicio4" element={<Ejercicio4 />} />
+        <Route path="/proyecto02/ejercicio5" element={<SimuladorSalario />} />
         <Route path="*" element={<Error />} />
       </Route>
     </Routes>

@@ -1,15 +1,19 @@
-import React, { useEffect } from "react";
-import "./styles/main.css";
-import "./js/ejercicio03.js"; // Importamos el script externo
+import { useState, useEffect } from "react";
+import "../Proyecto2.css";
 
 function Ejercicio03() {
+  const [mensaje, setMensaje] = useState("Presiona la tecla numérica 3 para iniciar");
+  const [activado, setActivado] = useState(false);
+
   useEffect(() => {
-    
-    // Asegura que el script escuche las teclas solo cuando el componente está montado
     const handleKeyDown = (event) => {
-      // Add your key handling logic here
-      if (event.key === '3') {
-        // Handle key 3 press
+      if (event.key === '3' && !activado) {
+        setActivado(true);
+        setMensaje("Ejercicio 3 activado correctamente");
+        setTimeout(() => {
+          setMensaje("Presiona nuevamente la tecla 3 para volver a activar");
+          setActivado(false);
+        }, 3000);
       }
     };
     
@@ -18,14 +22,15 @@ function Ejercicio03() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [activado]);
 
   return (
-    <section className="content-body">
-      <p className="screen-statement">
-        Presione la tecla numérica 3 para iniciar el ejercicio
-      </p>
-    </section>
+    <div className="ejercicio-container">
+      <div className="ejercicio-box gradient-3">
+        <h1>Detector de Tecla 3</h1>
+        <div className="resultado">{mensaje}</div>
+      </div>
+    </div>
   );
 }
 
