@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAutorizacion } from '../../hooks/useAutorizacion';
+import { authService } from '../../services/authService';
 import FormularioLogin from '../../components/FormularioLogin';
 import '../../assets/css/login.css';
 
@@ -9,8 +9,8 @@ const Login = () => {
     const [seguirPunteroMouse, setSeguirPunteroMouse] = useState(true);
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     
-    const { login } = useAutorizacion();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -89,27 +89,28 @@ const Login = () => {
         }, 60);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setLoading(true);
         setSeguirPunteroMouse(false);
         
-        // Intentar login
-        const result = login(formData);
-        
-        if (result.success) {
-            // Mostrar celebración
-            setMonsterImg('/src/assets/img/celebrar/2.png');
+        try {
+            const result = await authService.login(formData);
             
-            // Redirigir al home después de la celebración
-            setTimeout(() => {
-                navigate('/');
-            }, 2000);
-        } else {
-            // Mostrar error
-            setError(result.message || 'Credenciales inválidas');
+            if (result.success) {
+                setMonsterImg('/src/assets/img/celebrar/2.png');
+                
+                setTimeout(() => {
+                    navigate('/');
+                }, 2000);
+            }
+        } catch (err) {
+            setError(err.message || 'Credenciales invalidas');
             setMonsterImg('/src/assets/img/idle/1.png');
             setSeguirPunteroMouse(true);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -132,6 +133,7 @@ const Login = () => {
                     onSubmit={handleSubmit}
                     onRegistrarse={handleRegistrarse}
                     error={error}
+                    loading={loading}
                 />
             </div>
         </div>

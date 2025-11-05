@@ -5,7 +5,7 @@ import { useAutorizacion } from '../hooks/useAutorizacion.js';
 import { FaHome, FaUsers, FaFolderOpen, FaGamepad, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 
 function Layout() {
-    const { isAuthenticated, user, logout } = useAutorizacion();
+    const { isAuthenticated, logout } = useAutorizacion();
     const navigate = useNavigate();
 
     const manejarLogout = () => {

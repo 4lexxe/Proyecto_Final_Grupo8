@@ -7,21 +7,23 @@ const FormularioLogin = ({
     onClaveChange,
     onSubmit,
     onRegistrarse,
-    error 
+    error,
+    loading
 }) => {
     return (
         <form className="formulario" onSubmit={onSubmit}>
             {error && <div className="error-message">{error}</div>}
             
-            <label htmlFor="usuario">Usuario</label>
+            <label htmlFor="usuario">Usuario o Email</label>
             <input
                 id="usuario"
                 type="text"
-                placeholder="usuario@ejemplo.com"
+                placeholder="usuario o correo@ejemplo.com"
                 autoComplete="off"
                 onFocus={onUsuarioFocus}
                 onBlur={onUsuarioBlur}
                 onKeyUp={onUsuarioKeyUp}
+                disabled={loading}
             />
             <label htmlFor="clave">Contraseña</label>
             <input
@@ -31,8 +33,11 @@ const FormularioLogin = ({
                 onFocus={onClaveFocus}
                 onBlur={onClaveBlur}
                 onChange={onClaveChange}
+                disabled={loading}
             />
-            <button type="submit">Login</button>
+            <button type="submit" disabled={loading}>
+                {loading ? 'Cargando...' : 'Ingresar'}
+            </button>
             <div className="registro-link">
                 ¿No tienes cuenta? <a href="#" onClick={onRegistrarse}>Regístrate</a>
             </div>

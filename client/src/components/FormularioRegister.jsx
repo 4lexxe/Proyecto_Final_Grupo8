@@ -4,6 +4,7 @@ const FormularioRegister = ({
     onNombresChange,
     onApellidosChange,
     onEdadChange,
+    onEmailChange,
     onClaveChange,
     onConfirmClaveChange,
     onNivelInglesChange,
@@ -12,7 +13,8 @@ const FormularioRegister = ({
     onContinuarUsuario,
     onSubmit,
     onIniciarSesion,
-    error 
+    error,
+    loading
 }) => {
     // Paso 1: Nivel de inglés
     if (paso === 1) {
@@ -55,6 +57,7 @@ const FormularioRegister = ({
                     placeholder="Tus nombres"
                     autoComplete="off"
                     onChange={onNombresChange}
+                    disabled={loading}
                 />
 
                 <label htmlFor="apellidos">Apellidos</label>
@@ -64,6 +67,7 @@ const FormularioRegister = ({
                     placeholder="Tus apellidos"
                     autoComplete="off"
                     onChange={onApellidosChange}
+                    disabled={loading}
                 />
 
                 <label htmlFor="edad">Edad</label>
@@ -75,9 +79,22 @@ const FormularioRegister = ({
                     max="120"
                     autoComplete="off"
                     onChange={onEdadChange}
+                    disabled={loading}
                 />
 
-                <button type="submit">Continuar</button>
+                <label htmlFor="email">Correo Electronico</label>
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="correo@ejemplo.com"
+                    autoComplete="off"
+                    onChange={onEmailChange}
+                    disabled={loading}
+                />
+
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Guardando...' : 'Continuar'}
+                </button>
                 <div className="registro-link">
                     ¿Ya tienes cuenta? <a href="#" onClick={onIniciarSesion}>Inicia sesión</a>
                 </div>
