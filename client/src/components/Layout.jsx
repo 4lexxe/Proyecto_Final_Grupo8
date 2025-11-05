@@ -30,7 +30,7 @@ function Layout() {
                             {isAuthenticated && user?.rol === 'ALUMNO' //si esta autenticado y su rol es ALUMNO
                             && (<Nav.Link href="/games" className="text-secondary">Games</Nav.Link>)}
 
-                            <Nav.Link href="/otrapagina" className="text-secondary">Otra Pagina</Nav.Link>
+                            <Nav.Link href="/games" className="text-secondary">Games</Nav.Link>
                         </Nav>
 
                         <Nav className="ms-auto"> {/* alinea a la derecha */}

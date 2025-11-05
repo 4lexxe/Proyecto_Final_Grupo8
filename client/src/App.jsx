@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
 import Error from "./pages/Error.jsx";
 import Proyectos from "./pages/Proyectos.jsx";
-import { AboutUs } from "./pages/AboutUs.jsx";
+import AboutUs from "./pages/AboutUs.jsx";
 import OtraPagina from "./pages/OtraPagina.jsx";
 import Home from "./pages/Home.jsx";
 import { Games } from "./pages/Games.jsx";
