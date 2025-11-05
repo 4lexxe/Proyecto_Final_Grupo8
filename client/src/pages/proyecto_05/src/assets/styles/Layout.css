@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+.layout-appbar {
+  background-color: #000 !important;
+  border: 4px solid #000;
+  box-shadow: none !important;
+}
+
+.layout-title {
+  font-family: "Press Start 2P", cursive !important;
+  letter-spacing: 2px;
+  font-size: 0.7rem;
+}
+
+@media (min-width: 600px) {
+  .layout-title {
+    font-size: 1rem;
+  }
+}
+
+.layout-menu-button {
+  color: #fff !important;
+  font-family: "Press Start 2P", cursive !important;
+  font-size: 0.6rem !important;
+  border: 3px solid #fff !important;
+  border-radius: 0 !important;
+  padding: 8px 16px !important;
+  margin: 0 4px !important;
+  transition: all 0.3s !important;
+}
+
+.layout-menu-button:hover {
+  background-color: #fff !important;
+  color: #000 !important;
+  border: 3px solid #000 !important;
+}
+
+.layout-hamburger {
+  border: 2px solid #fff;
+}
+
+.layout-drawer {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 4px solid #000 !important;
+}
+
+.layout-drawer-item {
+  border: 2px solid #fff !important;
+  margin: 8px !important;
+  transition: all 0.3s !important;
+}
+
+.layout-drawer-item:hover {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.layout-drawer-text {
+  font-family: "Press Start 2P", cursive !important;
+  font-size: 0.6rem !important;
+}

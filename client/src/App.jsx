@@ -11,6 +11,7 @@ import Register from "./pages/register/Register.jsx";
 import ProtectorRutas from "./components/ProtectorRutas.jsx";
 import NoAutorizados from "./pages/NoAutorizados.jsx";
 import Proyecto04 from "./pages/Proyecto04.jsx";
+import Proyecto05 from "./pages/Proyecto05.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/proyectos" element={<Proyectos />} />
         <Route path="/games" element={<Games />} />
         <Route path="/proyecto04" element={<Proyecto04 />} />
+        <Route path="/proyecto05" element={<Proyecto05 />} />
         <Route path="/nosotros" element={<AboutUs />} />
         <Route path="/otraPagina" element={<OtraPagina />} />
         <Route path="/unauthorized" element={<NoAutorizados />} />

@@ -32,9 +32,11 @@ const Proyectos = () => {
         },
         {
             numero: 5,
-            titulo: 'Proyecto 5',
-            descripcion: 'Próximamente...',
-            ejercicios: []
+            titulo: 'Proyecto 5 - React Avanzado',
+            descripcion: 'Gestión de juegos y el juego Atrapa las Estrellas',
+            ejercicios: [
+                { nombre: 'Ver Proyecto 5 - Formularios y Juegos', path: '/proyecto05' }
+            ]
         }
     ];
 
