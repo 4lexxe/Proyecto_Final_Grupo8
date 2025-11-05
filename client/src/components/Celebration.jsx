@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import '../assets/css/celebration.css';
-import sonidoExito from '../assets/sounds/sonido_registro_exitoso.mp3';
+import sonidoExitoUrl from '../assets/sounds/sonido_registro_exitoso.mp3?url';
 
 const Celebration = ({ onComplete }) => {
     const [frameActual, setFrameActual] = useState(0);
@@ -10,8 +10,8 @@ const Celebration = ({ onComplete }) => {
     const tiempoTotalAnimacion = totalFrames * tiempoPorFrame; // ~4960ms (casi 5 segundos)
 
     useEffect(() => {
-        // Crear y reproducir sonido
-        const audio = new Audio(sonidoExito);
+        // Crear y reproducir sonido usando la URL importada
+        const audio = new Audio(sonidoExitoUrl);
         audioRef.current = audio;
         
         // Configurar audio antes de reproducir
@@ -88,4 +88,3 @@ const Celebration = ({ onComplete }) => {
 };
 
 export default Celebration;
-

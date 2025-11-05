@@ -10,6 +10,7 @@ import Login from "./pages/login/Login.jsx";
 import Register from "./pages/register/Register.jsx";
 import ProtectorRutas from "./components/ProtectorRutas.jsx";
 import NoAutorizados from "./pages/NoAutorizados.jsx";
+import Proyecto04 from "./pages/Proyecto04.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -22,15 +23,9 @@ function App() {
       {/* Rutas con Layout */}
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route
-          path="/proyectos"
-          element={
-            <ProtectorRutas allowedRoles={["ADMINISTRATIVO"]}>
-              <Proyectos />
-            </ProtectorRutas>
-          }
-        />
+        <Route path="/proyectos" element={<Proyectos />} />
         <Route path="/games" element={<Games />} />
+        <Route path="/proyecto04" element={<Proyecto04 />} />
         <Route path="/nosotros" element={<AboutUs />} />
         <Route path="/otraPagina" element={<OtraPagina />} />
         <Route path="/unauthorized" element={<NoAutorizados />} />

@@ -1,0 +1,68 @@
+body {
+    margin: 0;
+    height: 100vh; /* Llena toda la altura de la pantalla */
+    display: flex; /* Usa flexbox para centrar */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    background-color: #f0f0f0; /* Fondo gris claro para la página */
+    font-family: Arial, sans-serif; /* Fuente legible */
+}
+
+.container {
+    background-color: #e6f0fa; /* Fondo azul claro para el cuadro */
+    padding: 20px; /* Espacio interno */
+    border: 2px solid #ccc; /* Borde gris */
+    border-radius: 10px; /* Bordes redondeados como en la imagen */
+    text-align: center; /* Centra el texto dentro del cuadro */
+    width: 400px; /* Ancho fijo para el cuadro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+h1 {
+    color: #333; /* Título en gris oscuro */
+    margin-bottom: 10px; /* Espacio debajo del título */
+}
+
+p {
+    color: #666; /* Subtítulo en gris medio */
+    margin-bottom: 20px; /* Espacio debajo del subtítulo */
+}
+
+form {
+    display: flex; /* Usa flexbox para alinear los campos */
+    flex-direction: column; /* Campos en columna */
+    gap: 15px; /* Espacio entre campos */
+}
+
+label {
+    font-weight: bold; /* Negrita para las etiquetas */
+    color: #444; /* Color gris oscuro */
+}
+
+input {
+    padding: 8px; /* Relleno interno */
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 4px; /* Bordes ligeramente redondeados */
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    box-sizing: border-box; /* Incluye padding en el ancho */
+}
+
+button {
+    padding: 10px; /* Relleno interno */
+    background-color: #4CAF50; /* Verde para el botón */
+    color: white; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de mano al pasar */
+    font-size: 16px; /* Tamaño de fuente */
+}
+
+button:hover {
+    background-color: #45a049; /* Verde más oscuro al pasar el ratón */
+}
+
+#resultado {
+    margin-top: 20px; /* Espacio arriba del resultado */
+    font-weight: bold; /* Texto en negrita */
+    color: #333; /* Color gris oscuro */
+}

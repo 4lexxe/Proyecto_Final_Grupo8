@@ -1,11 +1,11 @@
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAutorizacion } from '../hooks/useAutorizacion.js';
+import { FaHome, FaUsers, FaFolderOpen, FaGamepad, FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 
 function Layout() {
-    const { isAuthenticated, user, logout } = useAutorizacion(); //se trae el usuario, el estdo y la funcion logout
-
+    const { isAuthenticated, user, logout } = useAutorizacion();
     const navigate = useNavigate();
 
     const manejarLogout = () => {
@@ -15,34 +15,54 @@ function Layout() {
 
     return (
         <>
-            <Navbar expand="lg" bg="light" variant="light" className="shadow-sm mb-4"> {/* navbar con sombra y margen inferior */}
+            <Navbar expand="lg" bg="light" variant="light" className="shadow-sm mb-4">
                 <Container>
-                    <Navbar.Brand className="fw-bold text-primary">GRUPO 8</Navbar.Brand> {/* marca destacada */}
+                    <Navbar.Brand as={Link} to="/" className="fw-bold text-primary mx-auto mx-lg-0">
+                        GRUPO 8
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto gap-2"> {/* espacio entre enlaces */}
-                            <Nav.Link href="/" className="text-secondary">Home</Nav.Link>
-                            <Nav.Link href="/nosotros" className="text-secondary">Nosotros</Nav.Link>
+                    <Navbar.Collapse id="basic-navbar-nav" className="justify-content-center">
+                        <Nav className="gap-3 align-items-center">
+                            <Nav.Link as={Link} to="/" className="text-secondary d-flex align-items-center gap-2">
+                                <FaHome /> Home
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/nosotros" className="text-secondary d-flex align-items-center gap-2">
+                                <FaUsers /> Nosotros
+                            </Nav.Link>
 
-                            {isAuthenticated && user?.rol === 'ADMINISTRATIVO' //si esta autenticado y su rol es ADMINISTRATIVO
-                            && (<Nav.Link href="/proyectos" className="text-secondary">Proyectos</Nav.Link>)}
+                            <Nav.Link as={Link} to="/proyectos" className="text-secondary d-flex align-items-center gap-2">
+                                <FaFolderOpen /> Proyectos
+                            </Nav.Link>
 
-                            {isAuthenticated && user?.rol === 'ALUMNO' //si esta autenticado y su rol es ALUMNO
-                            && (<Nav.Link href="/games" className="text-secondary">Games</Nav.Link>)}
+                            <Nav.Link as={Link} to="/games" className="text-secondary d-flex align-items-center gap-2">
+                                <FaGamepad /> Games
+                            </Nav.Link>
 
-                            <Nav.Link href="/games" className="text-secondary">Games</Nav.Link>
-                        </Nav>
+                            <div className="vr d-none d-lg-block" style={{ height: '30px' }}></div>
 
-                        <Nav className="ms-auto"> {/* alinea a la derecha */}
-                            {isAuthenticated ?         //aparece el boton CerrasS si esta autenticado y sino IniciarS
-                                (<Button variant="outline-danger" onClick={manejarLogout}>Cerrar sesion</Button>) 
-                                : (<Nav.Link href="/login" className="text-success">Iniciar sesion</Nav.Link>)}
+                            {isAuthenticated ? (
+                                <Button 
+                                    variant="outline-danger" 
+                                    onClick={manejarLogout}
+                                    className="d-flex align-items-center gap-2"
+                                >
+                                    <FaSignOutAlt /> Cerrar sesión
+                                </Button>
+                            ) : (
+                                <Nav.Link 
+                                    as={Link}
+                                    to="/login" 
+                                    className="text-success d-flex align-items-center gap-2 fw-bold"
+                                >
+                                    <FaSignInAlt /> Iniciar sesión
+                                </Nav.Link>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
 
-            <section className="px-4"> {/* padding horizontal para el contenido */}
+            <section className="px-4">
                 <Outlet></Outlet>
             </section>
         </>
@@ -50,6 +70,3 @@ function Layout() {
 }
 
 export default Layout;
-
-//Layout no es solo un menu ya que indica si el usuario esta logeado o no 
-//y muestra diferentes opciones en el menu dependiendo del rol del usuario

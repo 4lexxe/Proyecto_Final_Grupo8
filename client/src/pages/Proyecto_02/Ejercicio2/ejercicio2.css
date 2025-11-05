@@ -1,0 +1,34 @@
+
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* contenedor principal*/
+.contenedor-principal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;  /* ocupa toda la pantalla */
+}
+
+/* contenido: titulo, texto, borde */
+.seccion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px; /* espacio entre elementos */
+  padding: 30px;
+  border: 2px solid #000000;
+  border-radius: 10px; /* bordes redondeados */
+  background-color: #f2f2f2;
+  font-size: 16px;
+}
+
+/* boton */
+#calcular {
+  padding: 10px; /*alto*/
+  font-size: 16px; 
+  
+}
