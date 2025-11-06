@@ -1,21 +1,25 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authService } from '../../services/authService';
 import FormularioRegister from '../../components/FormularioRegister';
 import Celebration from '../../components/Celebration';
 import '../../assets/css/login.css';
 
 const Register = () => {
-    const [paso, setPaso] = useState(1); // 1: nivel, 2: nombres, 3: usuario, 4: contraseña
+    const [paso, setPaso] = useState(1);
+    const [userId, setUserId] = useState(null);
     const [formData, setFormData] = useState({ 
         nombres: '',
         apellidos: '',
         edad: '',
+        email: '',
         username: '', 
         password: '', 
         confirmPassword: '',
         nivelIngles: ''
     });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const [mensajeMonstruo, setMensajeMonstruo] = useState('¿Cuánto inglés sabes?');
     const [mostrarCelebracion, setMostrarCelebracion] = useState(false);
     
@@ -48,6 +52,10 @@ const Register = () => {
         setFormData({ ...formData, edad: e.target.value });
     };
 
+    const handleEmailChange = (e) => {
+        setFormData({ ...formData, email: e.target.value });
+    };
+
     const handleClaveChange = (e) => {
         setFormData({ ...formData, password: e.target.value });
     };
@@ -62,20 +70,30 @@ const Register = () => {
         setMensajeMonstruo(mensajesPorNivel[nivel] || '¿Cuánto inglés sabes?');
     };
 
-    const handleContinuarNivel = (e) => {
+    const handleContinuarNivel = async (e) => {
         e.preventDefault();
         if (!formData.nivelIngles) {
             setError('Por favor selecciona tu nivel de inglés');
             return;
         }
-        setError('');
-        setMensajeMonstruo('Bien, empecemos registrándote');
-        setPaso(2);
+        
+        setLoading(true);
+        try {
+            const result = await authService.registerStep1(formData.nivelIngles);
+            setUserId(result.userId);
+            setError('');
+            setMensajeMonstruo('Bien, empecemos registrándote');
+            setPaso(2);
+        } catch (err) {
+            setError(err.message || 'Error al guardar nivel de ingles');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleContinuarNombres = (e) => {
+    const handleContinuarNombres = async (e) => {
         e.preventDefault();
-        if (!formData.nombres || !formData.apellidos || !formData.edad) {
+        if (!formData.nombres || !formData.apellidos || !formData.edad || !formData.email) {
             setError('Por favor completa todos los campos');
             return;
         }
@@ -83,25 +101,43 @@ const Register = () => {
             setError('Por favor ingresa una edad válida');
             return;
         }
-        setError('');
-        const usuarioGenerado = generarUsuarioRandom(formData.nombres, formData.apellidos);
-        setFormData({ ...formData, username: usuarioGenerado });
-        setMensajeMonstruo(`Tu usuario será: ${usuarioGenerado}`);
-        setPaso(3);
+
+        setLoading(true);
+        try {
+            await authService.registerStep2(userId, formData.nombres, formData.apellidos, parseInt(formData.edad), formData.email);
+            const usuarioGenerado = generarUsuarioRandom(formData.nombres, formData.apellidos);
+            setFormData({ ...formData, username: usuarioGenerado });
+            setError('');
+            setMensajeMonstruo(`Tu usuario será: ${usuarioGenerado}`);
+            setPaso(3);
+        } catch (err) {
+            setError(err.message || 'Error al guardar datos');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleContinuarUsuario = (e) => {
+    const handleContinuarUsuario = async (e) => {
         e.preventDefault();
-        const primerNombre = formData.nombres.split(' ')[0];
-        setMensajeMonstruo(`Okey ${primerNombre}, para terminar tu registro crea una contraseña`);
-        setPaso(4);
+        
+        setLoading(true);
+        try {
+            await authService.registerStep3(userId, formData.username);
+            const primerNombre = formData.nombres.split(' ')[0];
+            setError('');
+            setMensajeMonstruo(`Okey ${primerNombre}, para terminar tu registro crea una contraseña`);
+            setPaso(4);
+        } catch (err) {
+            setError(err.message || 'Error al guardar usuario');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
-        // Validaciones
         if (!formData.password || !formData.confirmPassword) {
             setError('Por favor completa todos los campos');
             return;
@@ -117,16 +153,21 @@ const Register = () => {
             return;
         }
 
-        // Aquí puedes agregar tu lógica de registro
-        console.log('Registro enviado:', formData);
-        
-        // Mostrar celebración
-        setMostrarCelebracion(true);
+        setLoading(true);
+        try {
+            const result = await authService.registerComplete(userId, formData.password);
+            if (result.success) {
+                setMostrarCelebracion(true);
+            }
+        } catch (err) {
+            setError(err.message || 'Error al completar registro');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleCelebrationComplete = () => {
-        // Redirigir al home después de la celebración
-        navigate('/');
+        navigate('/login');
     };
 
     const handleIniciarSesion = (e) => {
@@ -153,6 +194,7 @@ const Register = () => {
                     onNombresChange={handleNombresChange}
                     onApellidosChange={handleApellidosChange}
                     onEdadChange={handleEdadChange}
+                    onEmailChange={handleEmailChange}
                     onClaveChange={handleClaveChange}
                     onConfirmClaveChange={handleConfirmClaveChange}
                     onNivelInglesChange={handleNivelInglesChange}
@@ -162,6 +204,7 @@ const Register = () => {
                     onSubmit={handleSubmit}
                     onIniciarSesion={handleIniciarSesion}
                     error={error}
+                    loading={loading}
                 />
             </div>
         </div>

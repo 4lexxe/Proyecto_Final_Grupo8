@@ -1,0 +1,22 @@
+[
+    {
+        "image": "./img/member.webp",
+        "name": "Gabriel Roberto Anze",
+        "contact": "@GabrielAnze"
+    },
+    {
+        "image": "./img/member.webp",
+        "name": "Alex Gabriel Calatayud",
+        "contact": "@4lexxe"
+    },
+    {
+        "image": "./img/SanchezEzequiel.jpeg",
+        "name": "Ezequiel Andres Sanchez",
+        "contact": "@Andromeda402"
+    },
+    {
+       "image": "./img/awki.png",
+        "name": "Awki Gimenez",
+        "contact": "@awkiJG"
+    }
+]

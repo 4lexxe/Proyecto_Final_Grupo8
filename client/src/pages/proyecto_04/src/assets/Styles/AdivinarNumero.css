@@ -1,0 +1,125 @@
+/* --- Estilos para Ejercicio1 y sus hijos --- */
+/* filepath: c:\Users\Usuario\OneDrive\Desktop\facu\FPW\Proyecto_04_Grupo8\src\assets\Styles\AdivinarNumero.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+
+.adivinarNumero-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Poppins', sans-serif;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.adivinarNumero-container h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 3.5rem;
+  color: #fff;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+  margin-top: 10px;
+  letter-spacing: 2px;
+  background: linear-gradient(45deg,  #00ff2a, #60eb04);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s ease infinite;
+}
+
+.adivinarNumero-container p {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.intentos {
+  font-weight: bold;
+  color: #ffd6e0;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+}
+
+.entrada-numero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.entrada-numero input[type="number"] {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 2px solid #fff;
+  font-size: 1.1rem;
+  width: 140px;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(255,107,107,0.08);
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.entrada-numero input[type="number"]:focus {
+  border: 2px solid #ffd6e0;
+  box-shadow: 0 4px 12px rgba(255,107,107,0.18);
+}
+
+.botones-row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.adivinarNumero-container button {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 12px 28px;
+  background: linear-gradient(45deg, #dd0909, #ff3122);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-top: 10px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 20px rgba(238, 90, 36, 0.3);
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.adivinarNumero-container button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(238, 90, 36, 0.4);
+  background: linear-gradient(45deg, #ff3122, #dd0909);
+}
+
+.adivinarNumero-container button:disabled {
+  background: #bfc9d1;
+  cursor: not-allowed;
+}
+
+.resultado {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  padding: 15px 25px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  letter-spacing: 1px;
+}
