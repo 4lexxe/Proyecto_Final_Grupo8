@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Mascotas</title>
+    <link rel="stylesheet" href="../styles/Styles.css">
+</head>
+<body>
+
+    <div class="container">
+    
+        <h1>Registro de Mascotas</h1>
+        <h2>Registra las mascotas de tus clientes y lleva un control de vacunacion</h2>
+    
+
+        <form id="informacionMascota">
+            
+            <label for="nombreMascota">Nombre de la mascota:</label>
+            <input type="text" id="nombreMascota" required>
+
+            <label>Tipo de Mascota<select id="tipoMascota">
+                <option value="Perro">Perro</option>
+                <option value="Gato">Gato</option>
+                <option value="Conejo">Conejo</option>
+                <option value="Pajaro">Pajaro</option>
+                <option value="Otro">Otro</option>
+            </select></label>
+
+            <label for="edad">Edad</label>
+            <input type="text" id="edad" required>
+
+            <label for="nombreDuenio">Nombre del dueño</label>
+            <input type="text" id="nombreDuenio" required>
+
+            <label for="vacuna">Esta vacunada?</label>
+            <label>Si<input type="radio" id="vacunaSi" name="vacuna" value="si" required></label>
+            <label>No<input type="radio" id="vacunaNo" name="vacuna" value="no" required></label>
+            <!--id = "vacuna" esta mal porque tendria que ser name="" para que compartan el mismo grupo-->
+
+            <button type="button" id="guardarB">Guardar datos</button>
+
+        </form>
+
+        <div id="resumen">
+            <p>Total de mascotas: <span id="totalMascotas">0</span></p>
+            <p>Mascotas vacunadas: <span id="totalVacunadas">0</span></p>
+            <p>Mascotas no vacunadas: <span id="totalNoVacunadas">0</span></p> 
+            <!--span contenedor de lineas pequeño-->
+        </div>
+
+        <div id="listaMascotas">Lista Mascotas</div>
+
+    </section>
+       
+
+
+    </div>
+    
+    <script type="module" src="../js/index.js"></script>
+</body>
+</html>
