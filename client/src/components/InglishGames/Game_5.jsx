@@ -33,7 +33,7 @@ function pickOptions(count = 4) {
   return Array.from(indices);
 }
 
-function Game_5({ title, onFinish, addToTotal, totalScore }) {
+function Game_5({onFinish, addToTotal, totalScore }) {
   // rounds: aciertos correctos completados en este nivel
   const [rounds, setRounds] = useState(0);
   // levelScore: puntuación local del nivel (puede decrementar con fallos)

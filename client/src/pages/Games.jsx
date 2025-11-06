@@ -4,6 +4,7 @@ import Game_2 from "../components/InglishGames/Game_2";
 import Game_3 from "../components/InglishGames/Game_3";
 import Game_4 from "../components/InglishGames/Game_4";
 import Game_5 from "../components/InglishGames/Game_5";
+import GameCompletionScreen from "../components/InglishGames/GameCompletionScreen";
 import "../assets/css/games.css";
 
 const GAME_TITLES = [
@@ -18,6 +19,7 @@ export function Games() {
   const [currentGameIndex, setCurrentGameIndex] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showCompletion, setShowCompletion] = useState(false);
 
   const addToTotal = (delta) => {
     setTotalScore((s) => s + delta);
@@ -26,22 +28,25 @@ export function Games() {
   const handleGameFinish = (levelScore) => {
     console.log(`Juego ${currentGameIndex + 1} finalizado. Puntos del nivel: ${levelScore}`);
     
-    // Iniciar transición
     setIsTransitioning(true);
     
-    // Esperar a que termine la animación de salida
     setTimeout(() => {
       if (currentGameIndex < 4) {
         setCurrentGameIndex(currentGameIndex + 1);
-        // Iniciar animación de entrada inmediatamente
         setIsTransitioning(false);
       } else {
-        alert(`¡Juegos completados! Puntuación total: ${totalScore}`);
-        setCurrentGameIndex(0);
-        setTotalScore(0);
-        setIsTransitioning(false);
+        // Mostrar pantalla de completación
+        setShowCompletion(true);
       }
-    }, 550); // Tiempo de la animación de salida
+    }, 550);
+  };
+
+  const handleCompletionFinish = () => {
+    // Reiniciar todo
+    setShowCompletion(false);
+    setCurrentGameIndex(0);
+    setTotalScore(0);
+    setIsTransitioning(false);
   };
 
   const renderGame = () => {
@@ -67,6 +72,10 @@ export function Games() {
         return null;
     }
   };
+
+  if (showCompletion) {
+    return <GameCompletionScreen totalScore={totalScore} onComplete={handleCompletionFinish} />;
+  }
 
   return (
     <div className="games-page">

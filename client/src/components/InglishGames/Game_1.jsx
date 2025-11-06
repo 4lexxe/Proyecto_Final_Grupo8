@@ -23,7 +23,7 @@ function pickOptions(count = 3) {
     return Array.from(indices);
 }
 
-function Game_1({ title, onFinish, addToTotal, totalScore }) {
+function Game_1({ onFinish, addToTotal, totalScore }) {
     // número de aciertos completados en este nivel (hasta 5)
     const [rounds, setRounds] = useState(0);
     // puntuación local del nivel (puede ser negativa)
