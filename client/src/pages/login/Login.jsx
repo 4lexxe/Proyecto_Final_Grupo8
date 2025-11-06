@@ -100,10 +100,11 @@ const Login = () => {
             
             if (result.success) {
                 setMonsterImg('/src/assets/img/celebrar/2.png');
+                window.dispatchEvent(new Event('userLoggedIn'));
                 
                 setTimeout(() => {
                     navigate('/');
-                }, 2000);
+                }, 1500);
             }
         } catch (err) {
             setError(err.message || 'Credenciales invalidas');

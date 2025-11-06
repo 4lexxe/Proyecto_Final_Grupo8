@@ -1,0 +1,82 @@
+.custom-navbar {
+    background-color: white !important;
+    border-bottom: 3px solid #ff6b9d;
+    box-shadow: 0 2px 8px rgba(255, 107, 157, 0.1);
+}
+
+.custom-navbar .navbar-brand {
+    color: #ff6b9d !important;
+    font-weight: 600;
+}
+
+.custom-navbar .nav-link {
+    color: #333 !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.custom-navbar .nav-link:hover {
+    color: #ff6b9d !important;
+}
+
+.custom-navbar .text-light {
+    color: #666 !important;
+}
+
+.btn-custom-outline {
+    border: 2px solid #ff6b9d !important;
+    color: #ff6b9d !important;
+    background-color: transparent !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-custom-outline:hover {
+    background-color: #ff6b9d !important;
+    color: white !important;
+}
+
+.btn-custom-primary {
+    background-color: #ff6b9d !important;
+    border: 2px solid #ff6b9d !important;
+    color: white !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-custom-primary:hover {
+    background-color: #ff5589 !important;
+    border-color: #ff5589 !important;
+}
+
+.dropdown-toggle-custom {
+    border: 2px solid #ff6b9d !important;
+    color: #ff6b9d !important;
+    background-color: transparent !important;
+    font-weight: 500;
+}
+
+.dropdown-toggle-custom:hover,
+.dropdown-toggle-custom:focus {
+    background-color: #ff6b9d !important;
+    color: white !important;
+}
+
+.dropdown-menu-custom {
+    border: 2px solid #ff6b9d !important;
+    border-radius: 8px;
+}
+
+.dropdown-menu-custom .dropdown-item:hover {
+    background-color: #ffe6f0;
+    color: #ff6b9d;
+}
+
+.navbar-toggler {
+    border-color: #ff6b9d !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ff6b9d' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}

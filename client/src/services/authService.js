@@ -1,7 +1,5 @@
 const API_URL = 'http://localhost:5000/api/auth';
 
-
-
 export const authService = {
   async registerStep1(nivelIngles) {
     try {
@@ -115,11 +113,12 @@ export const authService = {
   },
 
   logout() {
+    const user = this.getCurrentUser();
     localStorage.removeItem('user');
   },
 
   getCurrentUser() {
-    const userStr = localStorage.getItem('user');
-    return userStr ? JSON.parse(userStr) : null;
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
   }
 };
