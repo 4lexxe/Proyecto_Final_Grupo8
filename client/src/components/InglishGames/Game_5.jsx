@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import { FaHandPaper } from 'react-icons/fa';
 import { speakEnglish } from "../../utils/speechUtils";
+import { playCorrectSound, playIncorrectSound } from "../../utils/soundUtils";
+import MonsterCelebration from "./MonsterCelebration";
 import "../../assets/css/games.css";
 
 const PARTS = [
@@ -39,6 +42,7 @@ function Game_5({ title, onFinish, addToTotal, totalScore }) {
   const [options, setOptions] = useState(() => pickOptions(4));
   // targetPos: posición (0..3) dentro de `options` que es la correcta
   const [targetPos, setTargetPos] = useState(() => Math.floor(Math.random() * 4));
+  const [showMonsterCelebration, setShowMonsterCelebration] = useState(false);
 
   useEffect(() => {
     setRounds(0);
@@ -57,16 +61,17 @@ function Game_5({ title, onFinish, addToTotal, totalScore }) {
   const [animatedPos, setAnimatedPos] = useState(null);
   const [animType, setAnimType] = useState(null);
 
-  const handleChoice = (choicePos) => {
+  const handleChoice = async (choicePos) => {
     const correct = choicePos === targetPos;
     const selectedPart = PARTS_WITH_SRC[options[choicePos]];
     
     if (correct) {
       setAnimatedPos(choicePos);
       setAnimType("correct");
+      setShowMonsterCelebration(true);
       
-      // Pronunciar la parte del cuerpo en inglés
-      speakEnglish(selectedPart.en);
+      await playCorrectSound();
+      await speakEnglish(selectedPart.en);
       
       const updatedLevelScore = levelScore + 1;
       setTimeout(() => {
@@ -76,15 +81,17 @@ function Game_5({ title, onFinish, addToTotal, totalScore }) {
         setRounds(nextRound);
         setAnimatedPos(null);
         setAnimType(null);
+        setShowMonsterCelebration(false);
         if (nextRound >= 5) {
           onFinish(updatedLevelScore);
           return;
         }
         nextRoundSetup();
-      }, 360);
+      }, 2500);
     } else {
       setAnimatedPos(choicePos);
       setAnimType("incorrect");
+      playIncorrectSound();
       addToTotal && addToTotal(-1);
       setLevelScore((s) => s - 1);
       setTimeout(() => {
@@ -97,20 +104,23 @@ function Game_5({ title, onFinish, addToTotal, totalScore }) {
   const percent = Math.round((rounds / 5) * 100);
 
   return (
-    <div className="ig-card">
+    <div className="ig-card" style={{ position: 'relative' }}>
+      {showMonsterCelebration && <MonsterCelebration />}
+      
       <div className="ig-header">
-        <div>
-          <h3 className="ig-title">{title || "Body Parts — Match the Word"}</h3>
-          <div className="ig-subtitle">Selecciona la imagen que corresponde a la palabra en inglés. 5 aciertos para completar el nivel.</div>
-        </div>
-
+        <h3 className="ig-title">
+          <FaHandPaper style={{ marginRight: '12px', color: '#ff6b9d' }} />
+          Body Parts — Match the Word
+        </h3>
+        <div className="ig-subtitle">Selecciona la imagen que corresponde a la palabra en inglés</div>
+        
         <div className="ig-stats">
           <div className="ig-stat">
             <span className="label">Nivel</span>
-            <span className="value">{rounds} / 5</span>
+            <span className="value">{rounds}/5</span>
           </div>
           <div className="ig-stat">
-            <span className="label">Puntos (nivel)</span>
+            <span className="label">Puntos</span>
             <span className="value">{levelScore}</span>
           </div>
           {typeof totalScore !== "undefined" && (
@@ -122,10 +132,16 @@ function Game_5({ title, onFinish, addToTotal, totalScore }) {
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: 12, justifyContent: "center", margin: "16px 0", flexWrap: "wrap" }}>
+      <div className="ig-question-area">
+        <div className="ig-question-box">
+          <div className="ig-question-text">{PARTS_WITH_SRC[options[targetPos]].en}</div>
+        </div>
+      </div>
+
+      <div className="ig-options ig-options-grid-4">
         {options.map((optIndex, pos) => {
           const p = PARTS_WITH_SRC[optIndex];
-          const classes = ["ig-btn"];
+          const classes = ["ig-btn", "ig-image-btn"];
           if (animatedPos === pos) {
             if (animType === "incorrect") classes.push("shake", "ig-incorrect");
             else if (animType === "correct") classes.push("ig-correct");
@@ -136,37 +152,19 @@ function Game_5({ title, onFinish, addToTotal, totalScore }) {
               onClick={() => handleChoice(pos)}
               aria-label={p.es}
               className={classes.join(" ")}
-              style={{
-                width: 140,
-                height: 140,
-                background: "white",
-                border: "2px solid #ddd",
-                borderRadius: 12,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: 6,
-              }}
             >
-              <img src={p.src} alt={p.es} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
+              <img src={p.src} alt={p.es} className="body-part-image" />
             </button>
           );
         })}
       </div>
 
-      <div style={{ marginTop: 8, textAlign: "center" }}>
-        <div style={{ display: "inline-block", padding: 24, border: "2px dashed #ccc", borderRadius: 8, minWidth: 220 }}>
-          <div style={{ fontSize: 20, fontWeight: 600 }}>{PARTS_WITH_SRC[options[targetPos]].en}</div>
+      <div className="ig-progress-container">
+        <div className="ig-progress">
+          <span style={{ width: `${percent}%` }} />
         </div>
-
-        <div style={{ maxWidth: 420, margin: "12px auto 0" }}>
-          <div className="ig-progress" aria-hidden="true">
-            <span style={{ width: `${percent}%` }} />
-          </div>
-          <div style={{ marginTop: 8, textAlign: "center", color: "#53646f", fontSize: 13 }}>
-            Progreso: {rounds} / 5 — {percent}% completado
-          </div>
+        <div style={{ marginTop: 12, textAlign: "center", color: "#999", fontSize: 14, fontWeight: 600 }}>
+          {percent}% completado
         </div>
       </div>
     </div>

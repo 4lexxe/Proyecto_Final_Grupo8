@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import { FaPalette } from 'react-icons/fa';
 import { speakEnglish } from "../../utils/speechUtils";
+import { playCorrectSound, playIncorrectSound } from "../../utils/soundUtils";
+import MonsterCelebration from "./MonsterCelebration";
 import "../../assets/css/games.css";
 
 const COLORS = [
@@ -32,6 +35,7 @@ function Game_1({ title, onFinish, addToTotal, totalScore }) {
     // animated feedback state: position being animated and type ('correct'|'incorrect')
     const [animatedPos, setAnimatedPos] = useState(null);
     const [animType, setAnimType] = useState(null);
+    const [showMonsterCelebration, setShowMonsterCelebration] = useState(false);
 
     // reiniciar estado al montar
     useEffect(() => {
@@ -51,17 +55,19 @@ function Game_1({ title, onFinish, addToTotal, totalScore }) {
     // handleChoice: procesar la selección del usuario
     // - si es correcta: sumar punto, avanzar ronda (o finalizar nivel)
     // - si es incorrecta: restar punto global y permanecer en la misma repetición
-    const handleChoice = (choicePos) => {
+    const handleChoice = async (choicePos) => {
         const correct = choicePos === targetPos;
         const selectedColor = COLORS[options[choicePos]];
 
-        // set animated feedback so CSS classes apply
         setAnimatedPos(choicePos);
         setAnimType(correct ? "correct" : "incorrect");
 
         if (correct) {
-            // Pronunciar el color correcto en inglés
-            speakEnglish(selectedColor.label);
+            // Mostrar celebración del monstruo
+            setShowMonsterCelebration(true);
+            
+            await playCorrectSound();
+            await speakEnglish(selectedColor.label);
 
             const updatedLevelScore = levelScore + 1;
             setLevelScore(updatedLevelScore);
@@ -69,23 +75,22 @@ function Game_1({ title, onFinish, addToTotal, totalScore }) {
             const nextRound = rounds + 1;
             setRounds(nextRound);
 
-            // wait for the animation to play, then either finish or prepare next round
+            // Reducir tiempo de espera
             setTimeout(() => {
                 setAnimatedPos(null);
                 setAnimType(null);
+                setShowMonsterCelebration(false);
                 if (nextRound >= 5) {
-                    // finalizar nivel y pasar la puntuación del nivel a onFinish
                     onFinish && onFinish(updatedLevelScore);
                 } else {
                     nextRoundSetup();
                 }
-            }, 400);
+            }, 2500); // Reducido de 3100 a 2500
         } else {
-            // incorrect: subtract a global point and show animation but do not advance round
+            playIncorrectSound();
             addToTotal && addToTotal(-1);
             setLevelScore((s) => s - 1);
 
-            // clear the animation after a short moment so user sees feedback
             setTimeout(() => {
                 setAnimatedPos(null);
                 setAnimType(null);
@@ -96,24 +101,25 @@ function Game_1({ title, onFinish, addToTotal, totalScore }) {
     const percent = Math.round((rounds / 5) * 100);
 
     return (
-        <div className="ig-card">
+        <div className="ig-card" style={{ position: 'relative' }}>
+            {showMonsterCelebration && <MonsterCelebration />}
+            
             <div className="ig-header">
-                <div>
-                    <h3 className="ig-title">{title || "Colors — Match the word"}</h3>
-                    <div className="ig-subtitle">Selecciona el color que corresponda a la palabra. 5 aciertos para completar el nivel.</div>
-                </div>
-
+                <h3 className="ig-title">
+                    <FaPalette style={{ marginRight: '12px', color: '#ff6b9d' }} />
+                    Colors — Match the word
+                </h3>
+                <div className="ig-subtitle">Selecciona el color que corresponda a la palabra</div>
+                
                 <div className="ig-stats">
                     <div className="ig-stat">
                         <span className="label">Nivel</span>
-                        <span className="value">{rounds} / 5</span>
+                        <span className="value">{rounds}/5</span>
                     </div>
-
                     <div className="ig-stat">
-                        <span className="label">Puntos (nivel)</span>
+                        <span className="label">Puntos</span>
                         <span className="value">{levelScore}</span>
                     </div>
-
                     {typeof totalScore !== "undefined" && (
                         <div className="ig-stat">
                             <span className="label">Total</span>
@@ -123,10 +129,16 @@ function Game_1({ title, onFinish, addToTotal, totalScore }) {
                 </div>
             </div>
 
-            <div style={{ display: "flex", gap: 12, justifyContent: "center", margin: "16px 0" }}>
+            <div className="ig-question-area">
+                <div className="ig-question-box">
+                    <div className="ig-question-text">{COLORS[options[targetPos]].label}</div>
+                </div>
+            </div>
+
+            <div className="ig-options ig-options-grid">
                 {options.map((optIndex, pos) => {
                     const c = COLORS[optIndex];
-                    const classes = ["ig-btn"];
+                    const classes = ["ig-btn", "ig-color-btn"];
                     if (animatedPos === pos) {
                         if (animType === "incorrect") classes.push("shake", "ig-incorrect");
                         else if (animType === "correct") classes.push("ig-correct");
@@ -138,31 +150,20 @@ function Game_1({ title, onFinish, addToTotal, totalScore }) {
                             aria-label={c.label}
                             className={classes.join(" ")}
                             style={{
-                                width: 140,
-                                height: 120,
                                 background: c.css,
-                                border: "none",
-                                borderRadius: 12,
-                                cursor: "pointer",
-                                color: "white",
-                                fontSize: 18,
+                                borderColor: c.css,
                             }}
                         />
                     );
                 })}
             </div>
-            <div style={{ marginTop: 8, textAlign: "center" }}>
-                <div style={{ display: "inline-block", padding: 24, border: "2px dashed #ccc", borderRadius: 8, minWidth: 220 }}>
-                    <div style={{ fontSize: 20, fontWeight: 600 }}>{COLORS[options[targetPos]].label}</div>
-                </div>
 
-                <div style={{ maxWidth: 420, margin: "12px auto 0" }}>
-                    <div className="ig-progress" aria-hidden="true">
-                        <span style={{ width: `${percent}%` }} />
-                    </div>
-                    <div style={{ marginTop: 8, textAlign: "center", color: "#53646f", fontSize: 13 }}>
-                        Progreso: {rounds} / 5 — {percent}% completado
-                    </div>
+            <div className="ig-progress-container">
+                <div className="ig-progress">
+                    <span style={{ width: `${percent}%` }} />
+                </div>
+                <div style={{ marginTop: 12, textAlign: "center", color: "#999", fontSize: 14, fontWeight: 600 }}>
+                    {percent}% completado
                 </div>
             </div>
         </div>

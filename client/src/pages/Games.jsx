@@ -1,127 +1,121 @@
 import { useState } from "react";
-import Game_1 from "../components/InglishGames/Game_1.jsx";
-import Game_2 from "../components/InglishGames/Game_2.jsx";
-import Game_3 from "../components/InglishGames/Game_3.jsx";
-import Game_4 from "../components/InglishGames/Game_4.jsx";
-import Game_5 from "../components/InglishGames/Game_5.jsx";
+import Game_1 from "../components/InglishGames/Game_1";
+import Game_2 from "../components/InglishGames/Game_2";
+import Game_3 from "../components/InglishGames/Game_3";
+import Game_4 from "../components/InglishGames/Game_4";
+import Game_5 from "../components/InglishGames/Game_5";
+import "../assets/css/games.css";
 
-export const Games = () => {
-    // Número total de niveles/minijuegos
-    const totalLevels = 5;
-    // Índice del nivel actual (0-based). setCurrentIndex avanza al siguiente nivel.
-    const [currentIndex, setCurrentIndex] = useState(0);
-    // Array con la puntuación por nivel; null = no jugado aún
-    const [scores, setScores] = useState(Array(totalLevels).fill(null));
-    // Puntuación total acumulada (estado para poder persistir en DB)
-    const [totalScore, setTotalScore] = useState(0);
+const GAME_TITLES = [
+  "Colors — Match the word",
+  "Animals — Match the word",
+  "Numbers — Words and Digits",
+  "Weekdays — Días de la semana",
+  "Body Parts — Match the Word",
+];
 
-    // Define los componentes de cada nivel. Usamos cada componente específico.
-    const games = [
-        { id: "game-1", title: "Minijuego 1", Component: Game_1 },
-        { id: "game-2", title: "Minijuego 2", Component: Game_2 },
-        { id: "game-3", title: "Minijuego 3", Component: Game_3 },
-        { id: "game-4", title: "Minijuego 4", Component: Game_4 },
-        { id: "game-5", title: "Minijuego 5", Component: Game_5 },
-    ];
+export function Games() {
+  const [currentGameIndex, setCurrentGameIndex] = useState(0);
+  const [totalScore, setTotalScore] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-    // Evitar error cuando currentIndex === totalLevels (resumen final):
-    // si el índice está fuera de rango, CurrentGame será null.
-    const CurrentGame = currentIndex < games.length ? games[currentIndex].Component : null;
+  const addToTotal = (delta) => {
+    setTotalScore((s) => s + delta);
+  };
 
-    // handleFinish: recibe la puntuación del nivel y la guarda en `scores`, luego avanza
-    const handleFinish = (scoreOrObj) => {
-        const score = scoreOrObj;
+  const handleGameFinish = (levelScore) => {
+    console.log(`Juego ${currentGameIndex + 1} finalizado. Puntos del nivel: ${levelScore}`);
+    
+    // Iniciar transición
+    setIsTransitioning(true);
+    
+    // Esperar a que termine la animación de salida
+    setTimeout(() => {
+      if (currentGameIndex < 4) {
+        setCurrentGameIndex(currentGameIndex + 1);
+        // Iniciar animación de entrada inmediatamente
+        setIsTransitioning(false);
+      } else {
+        alert(`¡Juegos completados! Puntuación total: ${totalScore}`);
+        setCurrentGameIndex(0);
+        setTotalScore(0);
+        setIsTransitioning(false);
+      }
+    }, 550); // Tiempo de la animación de salida
+  };
 
-        // Guardar la puntuación del nivel actual
-        setScores((prev) => {
-            const copy = [...prev];
-            copy[currentIndex] = score;
-            return copy;
-        });
-
-        // Avanzar al siguiente nivel o marcar resumen final
-        if (currentIndex + 1 < totalLevels) {
-            setCurrentIndex((i) => i + 1);
-        } else {
-            setCurrentIndex(totalLevels); // valor fuera de rango indica resumen final
-        }
+  const renderGame = () => {
+    const gameProps = {
+      title: GAME_TITLES[currentGameIndex],
+      onFinish: handleGameFinish,
+      addToTotal,
+      totalScore,
     };
 
-
-    // Si currentIndex >= totalLevels mostramos el resumen final (UI más visual)
-    if (currentIndex >= totalLevels) {
-        const playedCount = scores.filter((s) => s != null).length;
-        const percentComplete = Math.round((playedCount / totalLevels) * 100);
-
-        return (
-            <div style={{ maxWidth: 900, margin: "0 auto", padding: 20 }}>
-                <h1>Resumen final</h1>
-
-                <div className="ig-card" style={{ marginBottom: 16 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-                        <div>
-                            <div className="final-score-big">{totalScore}</div>
-                            <div className="final-meta">Puntuación total acumulada</div>
-                        </div>
-
-                        <div style={{ textAlign: "right" }}>
-                            <div style={{ fontSize: 14, color: "#556772" }}>Niveles completados</div>
-                            <div style={{ fontSize: 20, fontWeight: 700 }}>{playedCount} / {totalLevels}</div>
-                        </div>
-                    </div>
-
-                    <div style={{ marginTop: 12 }}>
-                        <div className="ig-progress" aria-hidden="true">
-                            <span style={{ width: `${percentComplete}%` }} />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="final-grid">
-                    {games.map((g, i) => {
-                        const sc = scores[i];
-                        const pct = sc == null ? 0 : Math.max(0, Math.min(100, Math.round((sc / 5) * 100)));
-                        let badgeClass = "badge-pending";
-                        if (sc == null) badgeClass = "badge-pending";
-                        else if (sc >= 4) badgeClass = "badge-good";
-                        else if (sc >= 1) badgeClass = "badge-mid";
-                        else badgeClass = "badge-bad";
-
-                        return (
-                            <div className="final-item ig-card" key={g.id}>
-                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                    <div>
-                                        <div style={{ fontWeight: 700 }}>{g.title}</div>
-                                        <div style={{ fontSize: 13, color: "#6b7b88" }}>{sc == null ? "No jugado" : `${sc} puntos`}</div>
-                                    </div>
-                                    <div style={{ textAlign: "right" }}>
-                                        <div className={`final-badge ${badgeClass}`}>{sc == null ? "Pendiente" : `${pct}%`}</div>
-                                    </div>
-                                </div>
-
-                                <div style={{ marginTop: 10 }}>
-                                    <div className="ig-progress" aria-hidden="true">
-                                        <span style={{ width: `${pct}%` }} />
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        );
+    switch (currentGameIndex) {
+      case 0:
+        return <Game_1 key={`game-1-${currentGameIndex}`} {...gameProps} />;
+      case 1:
+        return <Game_2 key={`game-2-${currentGameIndex}`} {...gameProps} />;
+      case 2:
+        return <Game_3 key={`game-3-${currentGameIndex}`} {...gameProps} />;
+      case 3:
+        return <Game_4 key={`game-4-${currentGameIndex}`} {...gameProps} />;
+      case 4:
+        return <Game_5 key={`game-5-${currentGameIndex}`} {...gameProps} />;
+      default:
+        return null;
     }
+  };
 
-    return (
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: 20 }}>
-            <h1>Minijuegos</h1>
-            <div style={{ marginBottom: 8 }}>Nivel {currentIndex + 1} / {totalLevels}</div>
-            <CurrentGame
-                title={games[currentIndex].title}
-                onFinish={handleFinish}
-                addToTotal={(delta) => setTotalScore((prev) => prev + delta)}
-                totalScore={totalScore}
-            />
+  return (
+    <div className="games-page">
+      <div className="container" style={{ paddingTop: "20px", position: "relative" }}>
+        <div style={{ 
+          textAlign: "center", 
+          marginBottom: "30px",
+          animation: "fadeIn 0.6s ease-out"
+        }}>
+          <h1 style={{ 
+            color: "#ff6b9d", 
+            fontWeight: 800,
+            fontSize: "42px",
+            marginBottom: "10px"
+          }}>
+            Minijuegos de Inglés
+          </h1>
+          <p style={{ 
+            color: "#666", 
+            fontSize: "18px",
+            fontWeight: 500
+          }}>
+            Juego {currentGameIndex + 1} de 5
+          </p>
+          <div style={{
+            width: "100%",
+            maxWidth: "600px",
+            height: "8px",
+            background: "#e5e5e5",
+            borderRadius: "4px",
+            margin: "20px auto",
+            overflow: "hidden"
+          }}>
+            <div style={{
+              width: `${((currentGameIndex + 1) / 5) * 100}%`,
+              height: "100%",
+              background: "linear-gradient(90deg, #ff6b9d 0%, #ff8ab5 100%)",
+              borderRadius: "4px",
+              transition: "width 0.6s ease-out"
+            }} />
+          </div>
         </div>
-    );
-};
+        
+        <div 
+          className={`game-transition-wrapper ${isTransitioning ? 'game-exit' : 'game-enter'}`}
+        >
+          {renderGame()}
+        </div>
+      </div>
+    </div>
+  );
+}

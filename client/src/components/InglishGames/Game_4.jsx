@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import { FaCalendarAlt } from 'react-icons/fa';
 import { speakSpanish } from "../../utils/speechUtils";
+import { playCorrectSound, playIncorrectSound } from "../../utils/soundUtils";
+import MonsterCelebration from "./MonsterCelebration";
 import "../../assets/css/games.css";
 
 const DAYS = [
@@ -30,6 +33,7 @@ function Game_4({ title, onFinish, addToTotal, totalScore }) {
   const [options, setOptions] = useState(() => pickOptions(3));
   // targetPos: posición (0..2) de la opción correcta dentro de `options`
   const [targetPos, setTargetPos] = useState(() => Math.floor(Math.random() * 3));
+  const [showMonsterCelebration, setShowMonsterCelebration] = useState(false);
 
   useEffect(() => {
     setRounds(0);
@@ -50,16 +54,17 @@ function Game_4({ title, onFinish, addToTotal, totalScore }) {
   const [animType, setAnimType] = useState(null);
 
   // handleChoice: maneja la elección del usuario; sumar/restar puntos y avanzar si corresponde
-  const handleChoice = (choicePos) => {
+  const handleChoice = async (choicePos) => {
     const correct = choicePos === targetPos;
     const selectedDay = DAYS[options[choicePos]];
 
     if (correct) {
       setAnimatedPos(choicePos);
       setAnimType("correct");
+      setShowMonsterCelebration(true);
 
-      // Pronunciar el día en español (porque seleccionan español)
-      speakSpanish(selectedDay.es);
+      await playCorrectSound();
+      await speakSpanish(selectedDay.es);
 
       const updatedLevelScore = levelScore + 1;
       setTimeout(() => {
@@ -69,15 +74,17 @@ function Game_4({ title, onFinish, addToTotal, totalScore }) {
         setRounds(nextRound);
         setAnimatedPos(null);
         setAnimType(null);
+        setShowMonsterCelebration(false);
         if (nextRound >= 5) {
           onFinish(updatedLevelScore);
           return;
         }
         nextRoundSetup();
-      }, 360);
+      }, 2500);
     } else {
       setAnimatedPos(choicePos);
       setAnimType("incorrect");
+      playIncorrectSound();
       addToTotal && addToTotal(-1);
       setLevelScore((s) => s - 1);
       setTimeout(() => {
@@ -90,20 +97,23 @@ function Game_4({ title, onFinish, addToTotal, totalScore }) {
   const percent = Math.round((rounds / 5) * 100);
 
   return (
-    <div className="ig-card">
+    <div className="ig-card" style={{ position: 'relative' }}>
+      {showMonsterCelebration && <MonsterCelebration />}
+      
       <div className="ig-header">
-        <div>
-          <h3 className="ig-title">{title || "Weekdays — Días de la semana"}</h3>
-          <div className="ig-subtitle">Selecciona el día en español que corresponde al nombre en inglés. 5 aciertos para completar el nivel.</div>
-        </div>
-
+        <h3 className="ig-title">
+          <FaCalendarAlt style={{ marginRight: '12px', color: '#ff6b9d' }} />
+          Weekdays — Días de la semana
+        </h3>
+        <div className="ig-subtitle">Selecciona el día en español que corresponde al nombre en inglés</div>
+        
         <div className="ig-stats">
           <div className="ig-stat">
             <span className="label">Nivel</span>
-            <span className="value">{rounds} / 5</span>
+            <span className="value">{rounds}/5</span>
           </div>
           <div className="ig-stat">
-            <span className="label">Puntos (nivel)</span>
+            <span className="label">Puntos</span>
             <span className="value">{levelScore}</span>
           </div>
           {typeof totalScore !== "undefined" && (
@@ -115,10 +125,16 @@ function Game_4({ title, onFinish, addToTotal, totalScore }) {
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: 12, justifyContent: "center", margin: "16px 0" }}>
+      <div className="ig-question-area">
+        <div className="ig-question-box">
+          <div className="ig-question-text">{DAYS[options[targetPos]].en}</div>
+        </div>
+      </div>
+
+      <div className="ig-options ig-options-grid">
         {options.map((optIndex, pos) => {
           const d = DAYS[optIndex];
-          const classes = ["ig-btn"];
+          const classes = ["ig-btn", "ig-day-btn"];
           if (animatedPos === pos) {
             if (animType === "incorrect") classes.push("shake", "ig-incorrect");
             else if (animType === "correct") classes.push("ig-correct");
@@ -129,20 +145,6 @@ function Game_4({ title, onFinish, addToTotal, totalScore }) {
               onClick={() => handleChoice(pos)}
               aria-label={d.es}
               className={classes.join(" ")}
-              style={{
-                minWidth: 120,
-                height: 70,
-                background: "white",
-                border: "2px solid #ddd",
-                borderRadius: 8,
-                cursor: "pointer",
-                fontSize: 18,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: 8,
-                textTransform: "capitalize",
-              }}
             >
               {d.es}
             </button>
@@ -150,18 +152,12 @@ function Game_4({ title, onFinish, addToTotal, totalScore }) {
         })}
       </div>
 
-      <div style={{ marginTop: 8, textAlign: "center" }}>
-        <div style={{ display: "inline-block", padding: 24, border: "2px dashed #ccc", borderRadius: 8, minWidth: 220 }}>
-          <div style={{ fontSize: 20, fontWeight: 600 }}>{DAYS[options[targetPos]].en}</div>
+      <div className="ig-progress-container">
+        <div className="ig-progress">
+          <span style={{ width: `${percent}%` }} />
         </div>
-
-        <div style={{ maxWidth: 420, margin: "12px auto 0" }}>
-          <div className="ig-progress" aria-hidden="true">
-            <span style={{ width: `${percent}%` }} />
-          </div>
-          <div style={{ marginTop: 8, textAlign: "center", color: "#53646f", fontSize: 13 }}>
-            Progreso: {rounds} / 5 — {percent}% completado
-          </div>
+        <div style={{ marginTop: 12, textAlign: "center", color: "#999", fontSize: 14, fontWeight: 600 }}>
+          {percent}% completado
         </div>
       </div>
     </div>
