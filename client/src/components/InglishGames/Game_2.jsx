@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { speakEnglish } from "../../utils/speechUtils";
 import "../../assets/css/games.css";
 
 const ANIMALS = [
@@ -37,7 +38,6 @@ function Game_2({ title, onFinish, addToTotal, totalScore }) {
     }, []);
 
     // nextRoundSetup: prepara nuevas opciones y objetivo para la siguiente repetición
-    // nextRoundSetup: prepara nuevas opciones y objetivo para la siguiente repetición
     const nextRoundSetup = () => {
         const newOptions = pickOptions(3);
         setOptions(newOptions);
@@ -53,9 +53,15 @@ function Game_2({ title, onFinish, addToTotal, totalScore }) {
     // - incorrecto: -1 y permanecer en la misma repetición
     const handleChoice = (choicePos) => {
         const correct = choicePos === targetPos;
+        const selectedAnimal = ANIMALS[options[choicePos]];
+        
         if (correct) {
             setAnimatedPos(choicePos);
             setAnimType("correct");
+            
+            // Pronunciar el animal en inglés
+            speakEnglish(selectedAnimal.label);
+            
             const updatedLevelScore = levelScore + 1;
             setTimeout(() => {
                 setLevelScore(updatedLevelScore);

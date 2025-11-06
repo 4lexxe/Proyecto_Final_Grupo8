@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { speakEnglish } from "../../utils/speechUtils";
 import "../../assets/css/games.css";
 
 const NUMBERS = [
@@ -55,9 +56,15 @@ function Game_3({ title, onFinish, addToTotal, totalScore }) {
     // handleChoice: maneja la elección del jugador (correcta/incorrecta)
     const handleChoice = (choicePos) => {
         const correct = choicePos === targetPos;
+        const selectedNumber = NUMBERS[options[choicePos]];
+        
         if (correct) {
             setAnimatedPos(choicePos);
             setAnimType("correct");
+            
+            // Pronunciar el número en inglés
+            speakEnglish(selectedNumber.label);
+            
             const updatedLevelScore = levelScore + 1;
             setTimeout(() => {
                 setLevelScore(updatedLevelScore);

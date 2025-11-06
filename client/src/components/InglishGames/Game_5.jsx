@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { speakEnglish } from "../../utils/speechUtils";
 import "../../assets/css/games.css";
 
 const PARTS = [
@@ -58,9 +59,15 @@ function Game_5({ title, onFinish, addToTotal, totalScore }) {
 
   const handleChoice = (choicePos) => {
     const correct = choicePos === targetPos;
+    const selectedPart = PARTS_WITH_SRC[options[choicePos]];
+    
     if (correct) {
       setAnimatedPos(choicePos);
       setAnimType("correct");
+      
+      // Pronunciar la parte del cuerpo en inglés
+      speakEnglish(selectedPart.en);
+      
       const updatedLevelScore = levelScore + 1;
       setTimeout(() => {
         setLevelScore(updatedLevelScore);

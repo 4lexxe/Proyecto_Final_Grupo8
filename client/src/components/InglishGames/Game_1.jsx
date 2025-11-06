@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { speakEnglish } from "../../utils/speechUtils";
 import "../../assets/css/games.css";
 
 const COLORS = [
@@ -52,12 +53,16 @@ function Game_1({ title, onFinish, addToTotal, totalScore }) {
     // - si es incorrecta: restar punto global y permanecer en la misma repetición
     const handleChoice = (choicePos) => {
         const correct = choicePos === targetPos;
+        const selectedColor = COLORS[options[choicePos]];
 
         // set animated feedback so CSS classes apply
         setAnimatedPos(choicePos);
         setAnimType(correct ? "correct" : "incorrect");
 
         if (correct) {
+            // Pronunciar el color correcto en inglés
+            speakEnglish(selectedColor.label);
+
             const updatedLevelScore = levelScore + 1;
             setLevelScore(updatedLevelScore);
             addToTotal && addToTotal(1);

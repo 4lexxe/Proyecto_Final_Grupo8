@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { speakSpanish } from "../../utils/speechUtils";
 import "../../assets/css/games.css";
 
 const DAYS = [
@@ -51,9 +52,15 @@ function Game_4({ title, onFinish, addToTotal, totalScore }) {
   // handleChoice: maneja la elección del usuario; sumar/restar puntos y avanzar si corresponde
   const handleChoice = (choicePos) => {
     const correct = choicePos === targetPos;
+    const selectedDay = DAYS[options[choicePos]];
+
     if (correct) {
       setAnimatedPos(choicePos);
       setAnimType("correct");
+
+      // Pronunciar el día en español (porque seleccionan español)
+      speakSpanish(selectedDay.es);
+
       const updatedLevelScore = levelScore + 1;
       setTimeout(() => {
         setLevelScore(updatedLevelScore);
