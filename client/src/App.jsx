@@ -9,6 +9,8 @@ import { Games } from "./pages/Games.jsx";
 import Login from "./pages/login/Login.jsx";
 import Register from "./pages/register/Register.jsx";
 import NoAutorizados from "./pages/NoAutorizados.jsx";
+import Proyecto03Ej1 from "./pages/Proyecto_03/src/ejercicio1/Ejercicio1.jsx";
+import Proyecto03Ej2 from "./pages/Proyecto_03/src/ejercicio2/Ejercicio2.jsx";
 import Proyecto04 from "./pages/Proyecto04.jsx";
 import Proyecto05 from "./pages/Proyecto05.jsx";
 import Ejercicio1 from './pages/Proyecto_02/ejercicio1/ejercicio1.jsx';
@@ -35,6 +37,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/proyectos" element={<Proyectos />} />
               <Route path="/games" element={<Games />} />
+              <Route path="/proyecto03/ejercicio1" element={<Proyecto03Ej1 />} />
+              <Route path="/proyecto03/ejercicio2" element={<Proyecto03Ej2 />} />
               <Route path="/proyecto04" element={<Proyecto04 />} />
               <Route path="/proyecto05" element={<Proyecto05 />} />
               <Route path="/nosotros" element={<AboutUs />} />
