@@ -1,0 +1,101 @@
+body {
+    margin: 0; /* Elimina los márgenes predeterminados del cuerpo */
+    padding: 0; /* Elimina el relleno predeterminado del cuerpo */
+    display: flex; /* Usa un diseño flexible para centrar contenido */
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido */
+    min-height: 100vh; /* Establece una altura mínima igual al 100% de la ventana */
+    background-color: #f0f2f5; /* Establece un color de fondo claro y suave */
+    font-family: 'Arial', sans-serif; /* Define la fuente principal como Arial con fallback a sans-serif */
+}
+
+.cartel {
+    background-color: #ffffff; /* Fondo blanco para el cartel */
+    padding: 2rem; /* Añade relleno interno de 2rem por todos los lados */
+    border-radius: 15px; /* Redondea las esquinas del cartel */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra suave para un efecto de elevación */
+    text-align: center; /* Centra el texto dentro del cartel */
+    max-width: 400px; /* Limita el ancho máximo a 400px */
+    transition: transform 0.3s ease; /* Añade una transición suave al transformar el elemento */
+    display: flex; /* Usa flexbox para organizar los elementos verticalmente */
+    flex-direction: column; /* Apila los elementos en columna */
+    gap: 1rem; /* Espacio entre los elementos hijos */
+}
+
+.cartel:hover {
+    transform: scale(1.02); /* Aumenta ligeramente el tamaño del cartel al pasar el mouse (efecto hover) */
+}
+
+h1 {
+    color: #2c3e50; /* Define un color oscuro para los encabezados */
+}
+
+.input-container {
+    display: flex; /* Usa flexbox para organizar los elementos */
+    flex-direction: column; /* Apila los inputs y operadores verticalmente */
+    gap: 0.5rem; /* Espacio entre cada input y su operador */
+}
+
+input {
+    background-color: #ecf0f1; /* Fondo claro */
+    padding: 0.7rem; /* Relleno interno */
+    border-radius: 10px; /* Bordes redondeados igual al de .resultado */
+    font-size: 1rem; /* Tamaño de fuente  */
+    border: none; /* Sin borde para mantener consistencia */
+    text-align: center; /* Centra el texto dentro de los inputs */
+    box-sizing: border-box; /* Incluye padding y border en el cálculo del ancho */
+    border-left: 5px solid #16c016; /* Añade un borde izquierdo rojo de 5px */
+}
+
+.operator {
+    font-size: 1.2rem; /* Tamaño de fuente */
+    line-height: 1.2rem; /* Alinea verticalmente con el tamaño de fuente */
+    font-weight: bold; /* Hace que los operadores sean negrita */
+    display: block; /* Hace que el operador ocupe toda la línea debajo del input */
+    margin: 0 auto; /* Centra el operador horizontalmente */
+}
+
+.error-message {
+    color: #e74c3c; /* Color rojo para el mensaje de error */
+}
+
+#calcular-btn {
+    padding: 0.75rem 1.5rem; /* Relleno interno para el botón */
+    font-size: 1rem; /* Tamaño de fuente del botón */
+    background-color: #3498db; /* Color de fondo azul */
+    color: #ffffff; /* Texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Esquinas redondeadas */
+    cursor: pointer; /* Cambia el cursor a mano al pasar */
+    transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}
+
+#calcular-btn:hover {
+    background-color: #2980b9; /* Cambia a un azul más oscuro al pasar el mouse */
+}
+
+.resultado {
+    background-color: #ecf0f1; /* Fondo claro para las secciones de resultados */
+    padding: 0.7rem; /* Añade relleno interno de 1rem */
+    margin: 0.5rem 0; /* Añade un margen vertical de 0.5rem */
+    border-radius: 10px; /* Redondea las esquinas de los resultados */
+    font-size: 1.2rem; /* Establece el tamaño de fuente a 1.2rem */
+    color: #757575; /* Gris suave por defecto */
+}
+
+.resultado.active {
+    color: #000000; /* Negro más fuerte cuando se activa */
+}
+
+#resultado-x {
+    border-left: 5px solid #e74c3c; /* Añade un borde izquierdo rojo de 5px para destacar el resultado de 'x' */
+}
+
+#ecuacion {
+    border-left: 5px solid #3498db; /* Añade un borde izquierdo azul de 5px para destacar la ecuación */
+}
+
+span {
+    font-weight: bold; /* Hace que el texto dentro de <span> sea negrita */
+    color: #c0392b; /* Define un color rojo oscuro para resaltar los valores dentro de <span> */
+}

@@ -16,12 +16,16 @@ const Proyectos = () => {
                 { nombre: 'Ejercicio 5 - Simulador de Salario', path: '/proyecto02/ejercicio5' }
             ]
         },
-        {
-            numero: 3,
-            titulo: 'Proyecto 3',
-            descripcion: 'Próximamente...',
-            ejercicios: []
-        },
+       {
+    numero: 3,
+    titulo: 'Proyecto 3 - JavaScript Registro',
+    descripcion: 'Aplicación web simple para una clínica veterinaria, permite registrar mascotas y visualizar su información básica.',
+    ejercicios: [
+        { nombre: 'Ejercicio 1 - Resolvedor de Ecuaciones', path: '/proyecto03/ejercicio1' },
+        { nombre: 'Ejercicio 2 - Sistema de Registro y Búsqueda de Mascotas', path: '/proyecto03/ejercicio2' },
+    ]
+},
+
         {
             numero: 4,
             titulo: 'Proyecto 4 - React Interactivo',

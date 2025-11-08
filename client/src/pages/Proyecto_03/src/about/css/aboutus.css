@@ -1,0 +1,90 @@
+.section-aboutus {
+    background-color: #79aba6;
+    height: calc(100vh - 80px);
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    margin: 0;
+    height: 100%;
+}
+
+.team-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.team-list li {
+    font-size: 1.2rem;
+    margin: 0;  
+    background-color: #f48b8b;
+    border-radius: 10px;
+    max-width: 100%;
+    height: 300px;
+}
+
+.team-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 8px;
+    width: calc(20% - 16px); 
+    min-width: 180px;
+    max-width: 220px;
+}
+
+.team-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.team-name {
+    margin: 10px 0 5px;
+    font-size: 1.2em;
+    color: white;
+}
+
+.team-order {
+    margin: 5px 0;
+    font-size: 1em;
+    color: black;
+}
+
+.team-contact {
+    margin: 5px 0 0;
+    color: #b15dec;
+    text-decoration: none;
+    font-style: italic;
+    font-size: 0.95em;
+}
+
+.team-contact:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.error {
+    color: #d00;
+    font-style: normal;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Define el tipo de documento como HTML5 -->
+    <!-- Establece el idioma del documento como español -->
+    <meta charset="UTF-8">
+    <!-- Define la codificación de caracteres como UTF-8 para soportar una amplia gama de caracteres -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Configura la vista para dispositivos móviles, ajustando el ancho al dispositivo y estableciendo una escala inicial de 1.0 -->
+    <title>ejercicio01</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+    <!-- Contenedor principal del cuerpo de la página -->
+    <div class="cartel">
+        <!-- Título principal que indica el propósito de la página -->
+        <h1>Encontrar X en la Suma</h1>
+        <!-- Texto explicativo que guía al usuario sobre cómo usar la interfaz -->
+        <p>Ingresa tres cadenas de caracteres representando un sumando, otro sumando y el resultado, usando 'x' para remplasar un dígito desconocido.</p>
+        <!-- Contenedor para los campos de entrada y operadores, apilados verticalmente -->
+        <div class="input-container">
+            <!-- Primer sumando -->
+            <input type="text" id="sumando1" placeholder="Ej: 1x">
+            <span class="operator">+</span>
+            <!-- Segundo sumando -->
+            <input type="text" id="sumando2" placeholder="Ej: 2">
+            <span class="operator">=</span>
+            <!-- Resultado -->
+            <input type="text" id="resultado" placeholder="Ej: 13">
+        </div>
+        <!-- Mensaje de error que aparecerá en rojo cuando los datos sean incorrectos -->
+        <div id="error-message" class="error-message"></div>
+        <!-- Botón para calcular el valor de 'x' -->
+        <button id="calcular-btn">Calcular</button>
+        <!-- Div para mostrar el resultado del valor de 'x', con clase para estilizar y un span para el valor dinámico -->
+        <div id="resultado-x" class="resultado">Ej: Valor de X = 1<span id="valor-x"></span></div>
+        <!-- Div para mostrar la ecuación completa, con clase para estilizar y un span para el texto dinámico -->
+        <div id="ecuacion" class="resultado">Ej: Ecuacion: 11 + 2 = 13<span id="ecuacion-texto"></span></div>
+    </div>
+    <!-- Incluye un script de módulo JavaScript externo ubicado en la carpeta src, para la lógica de la aplicación -->
+    <script type="module" src="../index.js" ></script>
+</body>
+</html>

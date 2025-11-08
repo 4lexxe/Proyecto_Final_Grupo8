@@ -40,7 +40,7 @@ function NavigationBar() {
       <Container>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <FaRocket className="me-2" />
-          <span>Proyecto Grupo 5</span>
+          <span>Proyecto Grupo 8</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

@@ -1,0 +1,32 @@
+[
+    {
+        "image": "../src/about/images/member.webp",
+        "order": 2,
+        "name": "Gabriel Roberto Anze",
+        "contact": "@GabrielAnze"
+    },
+    {
+        "image": "../src/about/images/member.webp",
+        "order": 7,
+        "name": "Alex Gabriel Calatayud",
+        "contact": "@alexCalatayud-troit"
+    },
+    {
+       "image": "../src/about/images/awki.png",
+        "order": 20,
+        "name": "Awki Gimenez",
+        "contact": "@awkiJG"
+    },
+    {
+        "image": "../src/about/images/25user.jfif",
+        "order": 25,
+        "name": "Nayla Aixa Leiva",
+        "contact": "@LeivAixaNayla"
+    },
+    {
+        "image": "../src/about/images/member.webp",
+        "order": 34,
+        "name": "Ezequiel Andres Sanchez Roldan",
+        "contact": "@Andromeda402"
+    }
+]
