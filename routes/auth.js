@@ -7,7 +7,7 @@ const User = require('../models/User');
 // Paso 1: Guardar nivel de ingles
 router.post('/register/step1', async (req, res) => {
   try {
-    const { nivelIngles } = req.body;
+    const { nivelIngles, motivaciones, horasSemanales } = req.body;
 
     if (!nivelIngles) {
       return res.status(400).json({
@@ -16,7 +16,8 @@ router.post('/register/step1', async (req, res) => {
       });
     }
 
-    const newUser = new User({ nivelIngles });
+    // Crear usuario inicial con los campos adicionales si vienen
+    const newUser = new User({ nivelIngles, motivaciones, horasSemanales });
     await newUser.save();
 
     res.json({

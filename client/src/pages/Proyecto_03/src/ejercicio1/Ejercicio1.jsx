@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { datos, encontrarX, calcularEcuacion, validar } from "./component/operaciones";
+import { encontrarX, calcularEcuacion, validar } from "./component/operaciones";
 import "./styles/styles.css";
 
 function Ejercicio1() {
@@ -76,7 +76,7 @@ function Ejercicio1() {
 
       {mensajeError && <div className="error-message">{mensajeError}</div>}
 
-      <button onClick={calcular}>Calcular</button>
+  <button id="calcular-btn" onClick={calcular}>Calcular</button>
 
       {valorX && <div id="resultado-x" className="resultado active">{valorX}</div>}
       {ecuacion && <div id="ecuacion" className="resultado active">{ecuacion}</div>}

@@ -1,12 +1,13 @@
 const API_URL = 'http://localhost:5000/api/auth';
 
 export const authService = {
-  async registerStep1(nivelIngles) {
+  async registerStep1(payload) {
     try {
+      const body = typeof payload === 'object' ? payload : { nivelIngles: payload };
       const response = await fetch(`${API_URL}/register/step1`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nivelIngles }),
+        body: JSON.stringify(body),
       });
 
       const data = await response.json();

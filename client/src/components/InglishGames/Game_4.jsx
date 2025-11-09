@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaCalendarAlt } from 'react-icons/fa';
-import { speakSpanish } from "../../utils/speechUtils";
+import { speakEnglish } from "../../utils/speechUtils";
 import { playCorrectSound, playIncorrectSound } from "../../utils/soundUtils";
 import MonsterCelebration from "./MonsterCelebration";
 import "../../assets/css/games.css";
 
 const DAYS = [
-  { es: "lunes", en: "Monday" },
-  { es: "martes", en: "Tuesday" },
-  { es: "miércoles", en: "Wednesday" },
-  { es: "jueves", en: "Thursday" },
-  { es: "viernes", en: "Friday" },
-  { es: "sábado", en: "Saturday" },
-  { es: "domingo", en: "Sunday" },
+  { es: "Monday", en: "lunes" },
+  { es: "Tuesday", en: "martes" },
+  { es: "Wednesday", en: "miércoles" },
+  { es: "Thursday", en: "jueves" },
+  { es: "Friday", en: "viernes" },
+  { es: "Saturday", en: "sábado" },
+  { es: "Sunday", en: "domingo" },
 ];
 
 // pickOptions: elige `count` índices distintos de DAYS aleatoriamente
@@ -42,11 +42,18 @@ function Game_4({onFinish, addToTotal, totalScore }) {
     setTargetPos(Math.floor(Math.random() * 3));
   }, []);
 
+  const prevCorrectRef = useRef(null);
+
   // nextRoundSetup: preparar nuevas opciones y objetivo para la siguiente repetición
   const nextRoundSetup = () => {
-    const newOptions = pickOptions(3);
+    let newOptions, newTarget;
+    const prev = prevCorrectRef.current;
+    do {
+      newOptions = pickOptions(3);
+      newTarget = Math.floor(Math.random() * 3);
+    } while (prev != null && newOptions[newTarget] === prev);
     setOptions(newOptions);
-    setTargetPos(Math.floor(Math.random() * 3));
+    setTargetPos(newTarget);
   };
 
   // animated feedback state
@@ -63,8 +70,11 @@ function Game_4({onFinish, addToTotal, totalScore }) {
       setAnimType("correct");
       setShowMonsterCelebration(true);
 
+      // guardar el índice correcto actual
+      prevCorrectRef.current = options[targetPos];
+
       await playCorrectSound();
-      await speakSpanish(selectedDay.es);
+      await speakEnglish(selectedDay.es);
 
       const updatedLevelScore = levelScore + 1;
       setTimeout(() => {

@@ -37,6 +37,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['principiante', 'basico', 'intermedio', 'avanzado', 'experto']
   },
+  motivaciones: {
+    type: String,
+    enum: ['trabajo', 'viajar', 'estudios', 'interes', 'otros'],
+    default: ''
+  },
+  horasSemanales: {
+    type: String,
+    enum: ['1-2', '3-5', '6-9', '10+'],
+    default: ''
+  },
   registroCompleto: {
     type: Boolean,
     default: false

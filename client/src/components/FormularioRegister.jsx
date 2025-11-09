@@ -11,6 +11,8 @@ const FormularioRegister = ({
     onContinuarNivel,
     onContinuarNombres,
     onContinuarUsuario,
+    onMotivacionesChange,
+    onHorasChange,
     onSubmit,
     onIniciarSesion,
     error,
@@ -34,6 +36,33 @@ const FormularioRegister = ({
                     <option value="intermedio">Puedo mantener conversaciones simples</option>
                     <option value="avanzado">Puedo conversar sobre varios temas</option>
                     <option value="experto">Puedo debatir en detalle sobre la mayoría de los temas</option>
+                </select>
+
+                <label htmlFor="motivaciones">¿Por qué quieres aprender inglés?</label>
+                <select
+                    id="motivaciones"
+                    onChange={onMotivacionesChange}
+                    defaultValue=""
+                >
+                    <option value="" disabled>Selecciona una motivación</option>
+                    <option value="trabajo">Mejorar oportunidades laborales</option>
+                    <option value="viajar">Viajar y comunicarme en el extranjero</option>
+                    <option value="estudios">Estudiar en el extranjero</option>
+                    <option value="interes">Interés personal / hobby</option>
+                    <option value="otros">Otras razones</option>
+                </select>
+
+                <label htmlFor="horasSemanales">¿Cuántas horas por semana dedicarías?</label>
+                <select
+                    id="horasSemanales"
+                    onChange={onHorasChange}
+                    defaultValue=""
+                >
+                    <option value="" disabled>Selecciona un rango</option>
+                    <option value="1-2">1-2 horas</option>
+                    <option value="3-5">3-5 horas</option>
+                    <option value="6-9">6-9 horas</option>
+                    <option value="10+">10 horas o más</option>
                 </select>
 
                 <button type="submit">Continuar</button>

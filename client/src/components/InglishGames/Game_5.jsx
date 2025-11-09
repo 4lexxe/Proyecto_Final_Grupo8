@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaHandPaper } from 'react-icons/fa';
 import { speakEnglish } from "../../utils/speechUtils";
 import { playCorrectSound, playIncorrectSound } from "../../utils/soundUtils";
@@ -51,10 +51,17 @@ function Game_5({onFinish, addToTotal, totalScore }) {
     setTargetPos(Math.floor(Math.random() * 4));
   }, []);
 
+  const prevCorrectRef = useRef(null);
+
   const nextRoundSetup = () => {
-    const newOptions = pickOptions(4);
+    let newOptions, newTarget;
+    const prev = prevCorrectRef.current;
+    do {
+      newOptions = pickOptions(4);
+      newTarget = Math.floor(Math.random() * 4);
+    } while (prev != null && newOptions[newTarget] === prev);
     setOptions(newOptions);
-    setTargetPos(Math.floor(Math.random() * 4));
+    setTargetPos(newTarget);
   };
 
   // animated feedback state
@@ -69,7 +76,9 @@ function Game_5({onFinish, addToTotal, totalScore }) {
       setAnimatedPos(choicePos);
       setAnimType("correct");
       setShowMonsterCelebration(true);
-      
+      // guardar índice correcto actual
+      prevCorrectRef.current = options[targetPos];
+
       await playCorrectSound();
       await speakEnglish(selectedPart.en);
       

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaPaw } from 'react-icons/fa';
 import { speakEnglish } from "../../utils/speechUtils";
 import { playCorrectSound, playIncorrectSound } from "../../utils/soundUtils";
@@ -41,11 +41,18 @@ function Game_2({onFinish, addToTotal, totalScore }) {
         setTargetPos(Math.floor(Math.random() * 3));
     }, []);
 
+    const prevCorrectRef = useRef(null);
+
     // nextRoundSetup: prepara nuevas opciones y objetivo para la siguiente repetición
     const nextRoundSetup = () => {
-        const newOptions = pickOptions(3);
+        let newOptions, newTarget;
+        const prev = prevCorrectRef.current;
+        do {
+            newOptions = pickOptions(3);
+            newTarget = Math.floor(Math.random() * 3);
+        } while (prev != null && newOptions[newTarget] === prev);
         setOptions(newOptions);
-        setTargetPos(Math.floor(Math.random() * 3));
+        setTargetPos(newTarget);
     };
 
     // animated feedback state
@@ -63,6 +70,8 @@ function Game_2({onFinish, addToTotal, totalScore }) {
             setAnimatedPos(choicePos);
             setAnimType("correct");
             setShowMonsterCelebration(true);
+            // guardar índice correcto actual
+            prevCorrectRef.current = options[targetPos];
             
             await playCorrectSound();
             await speakEnglish(selectedAnimal.label);

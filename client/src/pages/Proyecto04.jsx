@@ -5,7 +5,7 @@ import "./proyecto_04/src/App.css";
 
 function Proyecto04() {
   return (
-    <div className="app-container">
+    <div className="app-container" style={{padding: "15px"}}>
       <div className="content-column">
         <div className="box" id="saludo">
           <Saludo />

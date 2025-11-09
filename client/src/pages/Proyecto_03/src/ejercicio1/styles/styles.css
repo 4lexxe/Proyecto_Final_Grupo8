@@ -1,25 +1,25 @@
 body {
-    margin: 0; /* Elimina los márgenes predeterminados del cuerpo */
-    padding: 0; /* Elimina el relleno predeterminado del cuerpo */
-    display: flex; /* Usa un diseño flexible para centrar contenido */
-    justify-content: center; /* Centra horizontalmente el contenido */
-    align-items: center; /* Centra verticalmente el contenido */
-    min-height: 100vh; /* Establece una altura mínima igual al 100% de la ventana */
-    background-color: #f0f2f5; /* Establece un color de fondo claro y suave */
-    font-family: 'Arial', sans-serif; /* Define la fuente principal como Arial con fallback a sans-serif */
+    margin: 0;
+    padding: 20px; /* pequeño padding para separarlo del borde */
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    font-family: 'Arial', sans-serif;
 }
 
 .cartel {
-    background-color: #ffffff; /* Fondo blanco para el cartel */
-    padding: 2rem; /* Añade relleno interno de 2rem por todos los lados */
-    border-radius: 15px; /* Redondea las esquinas del cartel */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra suave para un efecto de elevación */
-    text-align: center; /* Centra el texto dentro del cartel */
-    max-width: 400px; /* Limita el ancho máximo a 400px */
-    transition: transform 0.3s ease; /* Añade una transición suave al transformar el elemento */
-    display: flex; /* Usa flexbox para organizar los elementos verticalmente */
+    display: flex; /* organiza los elementos verticalmente */
     flex-direction: column; /* Apila los elementos en columna */
     gap: 1rem; /* Espacio entre los elementos hijos */
+
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 540px; /* ancho máximo más amplio */
+    width: 100%;
+    margin: 40px auto; /* centra el cartel horizontalmente dentro del contenedor */
+    transition: transform 0.3s ease;
 }
 
 .cartel:hover {

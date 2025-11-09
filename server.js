@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require('cors');
+// Load environment variables before importing modules that use them
+require('dotenv').config();
 const connectDB = require('./conection');
 const authRoutes = require('./routes/auth');
-require('dotenv').config();
+const membersRoutes = require('./routes/members');
 
 
 
@@ -26,6 +28,7 @@ connectDB();
 
 // Rutas
 app.use('/api/auth', authRoutes);
+app.use('/api/members', membersRoutes);
 
 
 
