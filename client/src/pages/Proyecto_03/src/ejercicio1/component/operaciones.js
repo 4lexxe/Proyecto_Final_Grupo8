@@ -1,14 +1,4 @@
-// Función que obtiene los valores de los inputs y los convierte en arrays de caracteres.
-export function datos(){
-    // Obtiene el valor de los 3 input como una cadena.
-    let input1 = document.getElementById("sumando1").value
-    let input2 = document.getElementById("sumando2").value
-    let input3= document.getElementById("resultado").value
 
-    // Crea un array con los valores divididos en caracteres individuales.
-    let cadenas = [input1.split(''), input2.split(''), input3.split('')]
-    return cadenas
-}
 
 // Función que encuentra la posición y el índice de 'x' en las cadenas proporcionadas.
 export function encontrarX(cadenas){

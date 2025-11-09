@@ -4,6 +4,7 @@ import { speakEnglish } from "../../utils/speechUtils";
 import { playCorrectSound, playIncorrectSound } from "../../utils/soundUtils";
 import MonsterCelebration from "./MonsterCelebration";
 import "../../assets/css/games.css";
+import { useRef } from "react";
 
 const COLORS = [
     { name: "red", label: "Red", css: "#e53935" },
@@ -45,11 +46,18 @@ function Game_1({ onFinish, addToTotal, totalScore }) {
         setTargetPos(Math.floor(Math.random() * 3));
     }, []);
 
+    const prevCorrectRef = useRef(null);
+    
     // nextRoundSetup: prepara nuevas opciones y objetivo para la siguiente repetición
     const nextRoundSetup = () => {
-        const newOptions = pickOptions(3);
+        let newOptions, newTarget;
+        const prev = prevCorrectRef.current;
+        do {
+            newOptions = pickOptions(3);
+            newTarget = Math.floor(Math.random() * 3);
+        } while (prev != null && newOptions[newTarget] === prev);
         setOptions(newOptions);
-        setTargetPos(Math.floor(Math.random() * 3));
+        setTargetPos(newTarget);
     };
 
     // handleChoice: procesar la selección del usuario
@@ -68,6 +76,8 @@ function Game_1({ onFinish, addToTotal, totalScore }) {
             
             await playCorrectSound();
             await speakEnglish(selectedColor.label);
+            // Guardar el índice correcto actual para evitar repetirlo en la siguiente ronda
+            prevCorrectRef.current = options[targetPos];
 
             const updatedLevelScore = levelScore + 1;
             setLevelScore(updatedLevelScore);

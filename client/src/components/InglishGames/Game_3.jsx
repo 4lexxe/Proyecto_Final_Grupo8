@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaSortNumericDown } from 'react-icons/fa';
 import { speakEnglish } from "../../utils/speechUtils";
 import { playCorrectSound, playIncorrectSound } from "../../utils/soundUtils";
@@ -45,12 +45,18 @@ function Game_3({onFinish, addToTotal, totalScore }) {
         setTargetPos(Math.floor(Math.random() * 4));
     }, []);
 
+    const prevCorrectRef = useRef(null);
+
     // nextRoundSetup: prepara nuevas opciones y objetivo para la siguiente repetición
-    // nextRoundSetup: prepara nuevas opciones y objetivo
     const nextRoundSetup = () => {
-        const newOptions = pickOptions(4);
+        let newOptions, newTarget;
+        const prev = prevCorrectRef.current;
+        do {
+            newOptions = pickOptions(4);
+            newTarget = Math.floor(Math.random() * 4);
+        } while (prev != null && newOptions[newTarget] === prev);
         setOptions(newOptions);
-        setTargetPos(Math.floor(Math.random() * 4));
+        setTargetPos(newTarget);
     };
 
     // animated feedback state
@@ -66,6 +72,7 @@ function Game_3({onFinish, addToTotal, totalScore }) {
             setAnimatedPos(choicePos);
             setAnimType("correct");
             setShowMonsterCelebration(true);
+            prevCorrectRef.current = options[targetPos];
             
             await playCorrectSound();
             await speakEnglish(selectedNumber.label);

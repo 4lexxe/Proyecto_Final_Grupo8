@@ -1,49 +1,36 @@
-// Utilidad para síntesis de voz usando Web Speech API (gratuita, nativa del navegador)
+// Speech utility using the Web Speech API.
+// Simplified: project uses only English voices, so priority lists and Spanish helpers were removed.
 
-// Función para obtener la mejor voz femenina disponible
+// Function to obtain a suitable (preferably female) voice for the requested language.
 const getBestFemaleVoice = (lang) => {
   const voices = window.speechSynthesis.getVoices();
   const langCode = lang.split('-')[0];
-  
-  // Prioridad de voces (de mejor a menor calidad)
+
+  // Priority names for English voices (best to good)
   const priorityNames = {
-    'en': ['Google US English', 'Microsoft Zira', 'Samantha', 'Karen', 'Victoria', 'Google UK English Female'],
-    'es': ['Google español', 'Microsoft Helena', 'Monica', 'Paulina', 'Google español de Estados Unidos', 'Mónica']
+    'en': ['Google US English', 'Microsoft Zira', 'Samantha', 'Karen', 'Victoria', 'Google UK English Female']
   };
-  
+
   const priorities = priorityNames[langCode] || [];
-  
-  // Buscar voz por prioridad
+
+  // Try priority names first
   for (const priority of priorities) {
-    const voice = voices.find(v => 
-      v.lang.startsWith(langCode) && 
-      v.name.includes(priority)
-    );
+    const voice = voices.find(v => v.lang.startsWith(langCode) && v.name.includes(priority));
     if (voice) return voice;
   }
-  
-  // Buscar cualquier voz de Google (mejor calidad)
-  const googleVoice = voices.find(v => 
-    v.lang.startsWith(langCode) && 
-    v.name.toLowerCase().includes('google')
-  );
+
+  // Any Google voice for the language
+  const googleVoice = voices.find(v => v.lang.startsWith(langCode) && v.name.toLowerCase().includes('google'));
   if (googleVoice) return googleVoice;
-  
-  // Buscar voz femenina genérica
-  const femaleVoice = voices.find(v => 
-    v.lang.startsWith(langCode) && 
-    (v.name.toLowerCase().includes('female') || 
-     v.name.toLowerCase().includes('woman') ||
-     v.name.toLowerCase().includes('maria') ||
-     v.name.toLowerCase().includes('samantha') ||
-     v.name.toLowerCase().includes('karen') ||
-     v.name.toLowerCase().includes('monica') ||
-     v.name.toLowerCase().includes('zira') ||
-     v.name.toLowerCase().includes('paulina'))
-  );
+
+  // Generic female-ish voice names (English-focused)
+  const femaleVoice = voices.find(v => {
+    const n = v.name.toLowerCase();
+    return v.lang.startsWith(langCode) && (n.includes('female') || n.includes('woman') || n.includes('samantha') || n.includes('karen') || n.includes('zira'));
+  });
   if (femaleVoice) return femaleVoice;
-  
-  // Última opción: cualquier voz del idioma
+
+  // Fallback: any voice of that language
   return voices.find(v => v.lang.startsWith(langCode));
 };
 
@@ -82,4 +69,3 @@ export const speak = (text, lang = 'en-US') => {
 };
 
 export const speakEnglish = (text) => speak(text, 'en-US');
-export const speakSpanish = (text) => speak(text, 'es-ES');
