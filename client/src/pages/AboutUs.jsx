@@ -1,13 +1,30 @@
 import { useState, useEffect } from 'react';
 import '../assets/css/AboutUs.css';
-import membersData from '../assets/data/members.json';
+
+// If backend runs on localhost:5000 in dev, change BASE_URL accordingly.
+// Use Vite env variable (prefixed with VITE_) when available.
+const BASE_URL = import.meta?.env?.VITE_API_URL || 'http://localhost:5000';
 
 function AboutUs() {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
-    // en este ejemplo se cargan los datos locales
-    setMembers(membersData);
+    // cargar datos desde la API /api/members
+    const load = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/members`);
+        const json = await res.json();
+        if (json && json.success && Array.isArray(json.members)) {
+          setMembers(json.members);
+        } else if (Array.isArray(json)) {
+          // compatibilidad si la API devolviera directamente un array
+          setMembers(json);
+        }
+      } catch (err) {
+        console.error('Error cargando miembros:', err);
+      }
+    };
+    load();
   }, []);
 
   return (

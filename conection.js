@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
   try {
     // URI de conexion
-    const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/proyecto_grupo5';
+    const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/FPW_Grupo8';
 
     // Opciones de conexion
     const options = {
