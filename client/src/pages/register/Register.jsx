@@ -16,7 +16,9 @@ const Register = () => {
         username: '', 
         password: '', 
         confirmPassword: '',
-        nivelIngles: ''
+        nivelIngles: '',
+        motivaciones: '',
+        horasSemanales: ''
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -31,6 +33,21 @@ const Register = () => {
         'intermedio': '¡Excelente! Continuemos mejorando.',
         'avanzado': '¡Muy bien, empecemos desde ahí!',
         'experto': '¡Increíble nivel! Sigamos avanzando.'
+    };
+
+    const mensajesPorMotivacion = {
+        'trabajo': '¡Perfecto, mejoraremos tu vocabulario profesional!',
+        'viajar': 'Genial, practicarás frases útiles para viajar.',
+        'estudios': 'Excelente, te prepararemos para entornos académicos.',
+        'interes': 'Muy bien, aprender será divertido y práctico.',
+        'otros': 'Entendido, adaptaremos el aprendizaje a tus necesidades.'
+    };
+
+    const mensajesPorHoras = {
+        '1-2': 'Con 1-2 horas semanales verás progreso gradual.',
+        '3-5': 'Muy bien — 3-5 horas es un buen ritmo para avanzar.',
+        '6-9': 'Excelente — podrás consolidar y practicar con más frecuencia.',
+        '10+': 'Genial, con ese tiempo lograrás avances rápidos.'
     };
 
     const generarUsuarioRandom = (nombres, apellidos) => {
@@ -70,16 +87,40 @@ const Register = () => {
         setMensajeMonstruo(mensajesPorNivel[nivel] || '¿Cuánto inglés sabes?');
     };
 
+    const handleMotivacionesChange = (e) => {
+        const m = e.target.value;
+        setFormData({ ...formData, motivaciones: m });
+        setMensajeMonstruo(mensajesPorMotivacion[m] || '¿Por qué quieres aprender inglés?');
+    };
+
+    const handleHorasChange = (e) => {
+        const h = e.target.value;
+        setFormData({ ...formData, horasSemanales: h });
+        setMensajeMonstruo(mensajesPorHoras[h] || '¿Cuántas horas dedicarías?');
+    };
+
     const handleContinuarNivel = async (e) => {
         e.preventDefault();
         if (!formData.nivelIngles) {
             setError('Por favor selecciona tu nivel de inglés');
             return;
         }
+        if (!formData.motivaciones) {
+            setError('Por favor selecciona tu motivación para aprender inglés');
+            return;
+        }
+        if (!formData.horasSemanales) {
+            setError('Por favor selecciona las horas semanales que dedicarías');
+            return;
+        }
         
         setLoading(true);
         try {
-            const result = await authService.registerStep1(formData.nivelIngles);
+            const result = await authService.registerStep1({ 
+                nivelIngles: formData.nivelIngles,
+                motivaciones: formData.motivaciones,
+                horasSemanales: formData.horasSemanales
+            });
             setUserId(result.userId);
             setError('');
             setMensajeMonstruo('Bien, empecemos registrándote');
@@ -198,6 +239,8 @@ const Register = () => {
                     onClaveChange={handleClaveChange}
                     onConfirmClaveChange={handleConfirmClaveChange}
                     onNivelInglesChange={handleNivelInglesChange}
+                    onMotivacionesChange={handleMotivacionesChange}
+                    onHorasChange={handleHorasChange}
                     onContinuarNivel={handleContinuarNivel}
                     onContinuarNombres={handleContinuarNombres}
                     onContinuarUsuario={handleContinuarUsuario}
