@@ -19,17 +19,14 @@ const PARTS = [
 ];
 
 // Precompute URLs for images relative to this module
-const PARTS_WITH_SRC = PARTS.map((p) => ({
-  ...p,
-  src: new URL(`../../assets/img/cuerpo/${p.file}`, import.meta.url).href,
-}));
+const PARTS_WITH_SRC = PARTS.map((p) => ({ ...p, src: new URL(`../../assets/img/cuerpo/${p.file}`, import.meta.url).href }));
+
+const rand = (n) => Math.floor(Math.random() * n);
 
 // pickOptions: selecciona `count` índices distintos de la lista de partes
 function pickOptions(count = 4) {
   const indices = new Set();
-  while (indices.size < count) {
-    indices.add(Math.floor(Math.random() * PARTS_WITH_SRC.length));
-  }
+  while (indices.size < count) indices.add(rand(PARTS_WITH_SRC.length));
   return Array.from(indices);
 }
 
@@ -45,11 +42,16 @@ function Game_5({onFinish, addToTotal, totalScore }) {
   const [showMonsterCelebration, setShowMonsterCelebration] = useState(false);
 
   useEffect(() => {
+    resetLevel();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const resetLevel = () => {
     setRounds(0);
     setLevelScore(0);
     setOptions(pickOptions(4));
-    setTargetPos(Math.floor(Math.random() * 4));
-  }, []);
+    setTargetPos(rand(4));
+  };
 
   const prevCorrectRef = useRef(null);
 
@@ -58,7 +60,7 @@ function Game_5({onFinish, addToTotal, totalScore }) {
     const prev = prevCorrectRef.current;
     do {
       newOptions = pickOptions(4);
-      newTarget = Math.floor(Math.random() * 4);
+      newTarget = rand(4);
     } while (prev != null && newOptions[newTarget] === prev);
     setOptions(newOptions);
     setTargetPos(newTarget);
@@ -68,46 +70,46 @@ function Game_5({onFinish, addToTotal, totalScore }) {
   const [animatedPos, setAnimatedPos] = useState(null);
   const [animType, setAnimType] = useState(null);
 
+  const CORRECT_DELAY = 2500;
+  const INCORRECT_DELAY = 360;
+
   const handleChoice = async (choicePos) => {
     const correct = choicePos === targetPos;
     const selectedPart = PARTS_WITH_SRC[options[choicePos]];
-    
-    if (correct) {
-      setAnimatedPos(choicePos);
-      setAnimType("correct");
-      setShowMonsterCelebration(true);
-      // guardar índice correcto actual
-      prevCorrectRef.current = options[targetPos];
 
-      await playCorrectSound();
-      await speakEnglish(selectedPart.en);
-      
-      const updatedLevelScore = levelScore + 1;
-      setTimeout(() => {
-        setLevelScore(updatedLevelScore);
-        addToTotal && addToTotal(1);
-        const nextRound = rounds + 1;
-        setRounds(nextRound);
-        setAnimatedPos(null);
-        setAnimType(null);
-        setShowMonsterCelebration(false);
-        if (nextRound >= 5) {
-          onFinish(updatedLevelScore);
-          return;
-        }
-        nextRoundSetup();
-      }, 2500);
-    } else {
+    if (!correct) {
       setAnimatedPos(choicePos);
       setAnimType("incorrect");
       playIncorrectSound();
-      addToTotal && addToTotal(-1);
+      addToTotal?.(-1);
       setLevelScore((s) => s - 1);
       setTimeout(() => {
         setAnimatedPos(null);
         setAnimType(null);
-      }, 360);
+      }, INCORRECT_DELAY);
+      return;
     }
+
+    setAnimatedPos(choicePos);
+    setAnimType("correct");
+    setShowMonsterCelebration(true);
+    prevCorrectRef.current = options[targetPos];
+
+    await playCorrectSound();
+    await speakEnglish(selectedPart.en);
+
+    const updatedLevelScore = levelScore + 1;
+    setTimeout(() => {
+      setLevelScore(updatedLevelScore);
+      addToTotal?.(1);
+      const nextRound = rounds + 1;
+      setRounds(nextRound);
+      setAnimatedPos(null);
+      setAnimType(null);
+      setShowMonsterCelebration(false);
+      if (nextRound >= 5) return onFinish(updatedLevelScore);
+      nextRoundSetup();
+    }, CORRECT_DELAY);
   };
 
   const percent = Math.round((rounds / 5) * 100);

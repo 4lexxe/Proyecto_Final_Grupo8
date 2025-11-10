@@ -14,12 +14,12 @@ const ANIMALS = [
     { name: "cow", label: "Cow", emoji: "🐮" },
 ];
 
+const rand = (n) => Math.floor(Math.random() * n);
+
 // pickOptions: elige `count` índices distintos aleatorios del arreglo ANIMALS
 function pickOptions(count = 3) {
     const indices = new Set();
-    while (indices.size < count) {
-        indices.add(Math.floor(Math.random() * ANIMALS.length));
-    }
+    while (indices.size < count) indices.add(rand(ANIMALS.length));
     return Array.from(indices);
 }
 
@@ -35,11 +35,17 @@ function Game_2({onFinish, addToTotal, totalScore }) {
     const [showMonsterCelebration, setShowMonsterCelebration] = useState(false);
 
     useEffect(() => {
+        // initialize level state
+        resetLevel();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const resetLevel = () => {
         setRounds(0);
         setLevelScore(0);
         setOptions(pickOptions(3));
-        setTargetPos(Math.floor(Math.random() * 3));
-    }, []);
+        setTargetPos(rand(3));
+    };
 
     const prevCorrectRef = useRef(null);
 
@@ -49,7 +55,7 @@ function Game_2({onFinish, addToTotal, totalScore }) {
         const prev = prevCorrectRef.current;
         do {
             newOptions = pickOptions(3);
-            newTarget = Math.floor(Math.random() * 3);
+            newTarget = rand(3);
         } while (prev != null && newOptions[newTarget] === prev);
         setOptions(newOptions);
         setTargetPos(newTarget);
@@ -62,46 +68,47 @@ function Game_2({onFinish, addToTotal, totalScore }) {
     // handleChoice: procesar la elección del jugador
     // - correcto: +1, avanzar a la siguiente repetición (o finalizar nivel)
     // - incorrecto: -1 y permanecer en la misma repetición
+    const CORRECT_DELAY = 2500;
+    const INCORRECT_DELAY = 360;
+
     const handleChoice = async (choicePos) => {
         const correct = choicePos === targetPos;
         const selectedAnimal = ANIMALS[options[choicePos]];
-        
-        if (correct) {
-            setAnimatedPos(choicePos);
-            setAnimType("correct");
-            setShowMonsterCelebration(true);
-            // guardar índice correcto actual
-            prevCorrectRef.current = options[targetPos];
-            
-            await playCorrectSound();
-            await speakEnglish(selectedAnimal.label);
-            
-            const updatedLevelScore = levelScore + 1;
-            setTimeout(() => {
-                setLevelScore(updatedLevelScore);
-                addToTotal && addToTotal(1);
-                const nextRound = rounds + 1;
-                setRounds(nextRound);
-                setAnimatedPos(null);
-                setAnimType(null);
-                setShowMonsterCelebration(false);
-                if (nextRound >= 5) {
-                    onFinish(updatedLevelScore);
-                    return;
-                }
-                nextRoundSetup();
-            }, 2500);
-        } else {
+
+        if (!correct) {
             setAnimatedPos(choicePos);
             setAnimType("incorrect");
             playIncorrectSound();
-            addToTotal && addToTotal(-1);
+            addToTotal?.(-1);
             setLevelScore((s) => s - 1);
             setTimeout(() => {
                 setAnimatedPos(null);
                 setAnimType(null);
-            }, 360);
+            }, INCORRECT_DELAY);
+            return;
         }
+
+        // correct path
+        setAnimatedPos(choicePos);
+        setAnimType("correct");
+        setShowMonsterCelebration(true);
+        prevCorrectRef.current = options[targetPos];
+
+        await playCorrectSound();
+        await speakEnglish(selectedAnimal.label);
+
+        const updatedLevelScore = levelScore + 1;
+        setTimeout(() => {
+            setLevelScore(updatedLevelScore);
+            addToTotal?.(1);
+            const nextRound = rounds + 1;
+            setRounds(nextRound);
+            setAnimatedPos(null);
+            setAnimType(null);
+            setShowMonsterCelebration(false);
+            if (nextRound >= 5) return onFinish(updatedLevelScore);
+            nextRoundSetup();
+        }, CORRECT_DELAY);
     };
 
     const percent = Math.round((rounds / 5) * 100);

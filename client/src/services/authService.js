@@ -104,8 +104,10 @@ export const authService = {
         throw new Error(data.message || 'Error al iniciar sesion');
       }
 
-      // Guardar usuario en localStorage
-      localStorage.setItem('user', JSON.stringify(data.user));
+  // Guardar usuario en localStorage (key 'user')
+  localStorage.setItem('user', JSON.stringify(data.user));
+  // También sincronizamos la otra clave que usa el contexto si existe
+  try { localStorage.setItem('LOCAL_STORAGE_KEY', JSON.stringify(data.user)); } catch (e) { /* ignore */ }
 
       return data;
     } catch (error) {
@@ -113,13 +115,43 @@ export const authService = {
     }
   },
 
+  async updateMaxPuntos(totalScore) {
+    try {
+      const current = this.getCurrentUser();
+      if (!current) throw new Error('No hay usuario logueado');
+
+      const response = await fetch(`${API_URL}/maxpuntos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: current.id || current._id, totalScore })
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Error al actualizar maxPuntos');
+
+      // Si se guardó, actualizar el user en localStorage
+      if (data.saved) {
+        const updated = { ...current, maxPuntos: data.maxPuntos };
+        localStorage.setItem('user', JSON.stringify(updated));
+      }
+
+      return data;
+    } catch (error) {
+      // no bloquear la UX si falla, simplemente propaga
+      throw error;
+    }
+  },
+
   logout() {
-    const user = this.getCurrentUser();
+    // Remove both possible storage keys to fully logout
     localStorage.removeItem('user');
+    localStorage.removeItem('LOCAL_STORAGE_KEY');
   },
 
   getCurrentUser() {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+    const u1 = localStorage.getItem('user');
+    if (u1) return JSON.parse(u1);
+    const u2 = localStorage.getItem('LOCAL_STORAGE_KEY');
+    return u2 ? JSON.parse(u2) : null;
   }
 };

@@ -15,6 +15,8 @@ const GAME_TITLES = [
   "Body Parts — Match the Word",
 ];
 
+import { authService } from '../services/authService';
+
 export function Games() {
   const [currentGameIndex, setCurrentGameIndex] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
@@ -25,7 +27,7 @@ export function Games() {
     setTotalScore((s) => s + delta);
   };
 
-  const handleGameFinish = (levelScore) => {
+  const handleGameFinish = async (levelScore) => {
     console.log(`Juego ${currentGameIndex + 1} finalizado. Puntos del nivel: ${levelScore}`);
     
     setIsTransitioning(true);
@@ -35,8 +37,16 @@ export function Games() {
         setCurrentGameIndex(currentGameIndex + 1);
         setIsTransitioning(false);
       } else {
-        // Mostrar pantalla de completación
-        setShowCompletion(true);
+        // Guardar maxPuntos en la BD si corresponde, luego mostrar pantalla de completación
+        (async () => {
+          try {
+            await authService.updateMaxPuntos(totalScore).catch(err => console.log('No se pudo actualizar maxPuntos:', err.message));
+          } catch (e) {
+            console.log('Error al intentar guardar maxPuntos', e.message || e);
+          } finally {
+            setShowCompletion(true);
+          }
+        })();
       }
     }, 550);
   };

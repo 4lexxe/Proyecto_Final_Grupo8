@@ -165,7 +165,10 @@ router.post('/register/complete', async (req, res) => {
         email: user.email,
         nombres: user.nombres,
         apellidos: user.apellidos,
-        nivelIngles: user.nivelIngles
+        nivelIngles: user.nivelIngles,
+        motivaciones: user.motivaciones || '',
+        horasSemanales: user.horasSemanales || '',
+        maxPuntos: typeof user.maxPuntos === 'number' ? user.maxPuntos : 0
       }
     });
 
@@ -236,7 +239,10 @@ router.post('/login', async (req, res) => {
         email: user.email,
         nombres: user.nombres,
         apellidos: user.apellidos,
-        nivelIngles: user.nivelIngles
+        nivelIngles: user.nivelIngles,
+        motivaciones: user.motivaciones || '',
+        horasSemanales: user.horasSemanales || '',
+        maxPuntos: typeof user.maxPuntos === 'number' ? user.maxPuntos : 0
       }
     });
 
@@ -247,6 +253,33 @@ router.post('/login', async (req, res) => {
       message: 'Error al iniciar sesion',
       error: error.message
     });
+  }
+});
+
+
+// Actualizar maxPuntos: guarda solo si el nuevo total es mayor que el registrado
+router.post('/maxpuntos', async (req, res) => {
+  try {
+    const { userId, totalScore } = req.body;
+
+    if (!userId || typeof totalScore !== 'number') {
+      return res.status(400).json({ success: false, message: 'userId y totalScore (number) son requeridos' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+
+    const current = typeof user.maxPuntos === 'number' ? user.maxPuntos : 0;
+    if (totalScore > current) {
+      user.maxPuntos = totalScore;
+      await user.save();
+      return res.json({ success: true, saved: true, maxPuntos: user.maxPuntos });
+    }
+
+    // no se actualiza porque no supera el registro previo
+    return res.json({ success: true, saved: false, maxPuntos: current });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error al actualizar maxPuntos', error: error.message });
   }
 });
 

@@ -32,12 +32,12 @@ function NavigationBar() {
   const handleLogout = () => {
     authService.logout();
     setUser(null);
-    navigate('/login');
+    navigate('/');
   };
 
   return (
-    <Navbar className="custom-navbar" expand="lg" sticky="top">
-      <Container>
+    <Navbar className="custom-navbar" expand="xxl" sticky="top">
+      <Container >
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <FaRocket className="me-2" />
           <span>Proyecto Grupo 8</span>
@@ -83,6 +83,8 @@ function NavigationBar() {
                     <strong>{user.nombres} {user.apellidos}</strong>
                     <br />
                     <small className="text-muted">{user.email}</small>
+                    <br />
+                    <small className="text-muted">Max Puntos: {user.maxPuntos || 0}</small>
                   </Dropdown.ItemText>
                   <Dropdown.Divider />
                   <Dropdown.Item onClick={handleLogout} className="logout-item">
