@@ -83,6 +83,8 @@ function NavigationBar() {
                     <strong>{user.nombres} {user.apellidos}</strong>
                     <br />
                     <small className="text-muted">{user.email}</small>
+                    <br />
+                    <small className="text-muted">Max Puntos: {user.maxPuntos || 0}</small>
                   </Dropdown.ItemText>
                   <Dropdown.Divider />
                   <Dropdown.Item onClick={handleLogout} className="logout-item">

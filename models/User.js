@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['principiante', 'basico', 'intermedio', 'avanzado', 'experto']
   },
+  maxPuntos: {
+    type: Number,
+    default: 0
+  },
   motivaciones: {
     type: String,
     enum: ['trabajo', 'viajar', 'estudios', 'interes', 'otros'],

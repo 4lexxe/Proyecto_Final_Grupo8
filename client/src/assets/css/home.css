@@ -1,0 +1,54 @@
+.home-container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.home-card {
+    border-radius: 14px;
+    border: 3px solid #ff6b9d;
+    box-shadow: 0 12px 36px rgba(255, 107, 157, 0.08);
+    overflow: hidden;
+}
+
+.home-card .card-header {
+    background: linear-gradient(90deg, rgba(255,107,157,0.04), rgba(255,138,181,0.02));
+    color: #ff6b9d;
+    font-weight: 700;
+    font-size: 1.15rem;
+    border-bottom: none;
+}
+
+.home-card .card-body { padding: 1.25rem 1.5rem; }
+
+.home-card .card-title {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.home-list .list-group-item {
+    border: none;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255, 107, 157, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home-list .list-group-item:last-child { border-bottom: none; }
+
+.home-list .label { color: #666; font-weight: 600; margin-right: 12px; }
+.home-list .value { color: #222; font-weight: 700; }
+
+.home-badge {
+    background: linear-gradient(90deg, #ff6b9d, #ff8ab5);
+    color: white !important;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 999px;
+}
+
+@media (max-width: 576px) {
+    .home-card { margin: 0 12px; }
+    .home-list .list-group-item { padding: 12px 10px; }
+}

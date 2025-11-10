@@ -1,7 +1,5 @@
 import { createContext, useState, useMemo, useCallback, useEffect } from "react";
 
-import usuariosGuardados from "../assets/data/usuarios.json";
-
 // Crear el contexto - solo contexto
 
 export const AutorizacionesContext = createContext(null);
