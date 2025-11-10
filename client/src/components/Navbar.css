@@ -1,19 +1,29 @@
 .custom-navbar {
     background-color: white !important;
     border-bottom: 3px solid #ff6b9d;
-    box-shadow: 0 2px 8px rgba(255, 107, 157, 0.1);
+    box-shadow: 0 2px 12px rgba(255, 107, 157, 0.12);
+    /* make navbar span almost full viewport width and give breathing room */
+    width: 96%;
+    margin: 12px auto 0 auto;
+    padding-top: 14px;
+    padding-bottom: 14px;
 }
 
 .custom-navbar .navbar-brand {
     color: #ff6b9d !important;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.6rem;
+    letter-spacing: 0.4px;
 }
 
 .custom-navbar .nav-link {
     color: #333 !important;
-    font-weight: 500;
+    font-weight: 600;
     transition: color 0.3s ease;
     text-decoration: none;
+    margin: 0 16px; /* increase spacing between items */
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 
 .custom-navbar .nav-link:hover {
@@ -80,3 +90,15 @@
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ff6b9d' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
+
+/* Responsive tweaks: reduce spacing on small screens */
+@media (max-width: 768px) {
+    .custom-navbar { width: 100%; margin-top: 8px; padding-top: 8px; padding-bottom: 8px; }
+    .custom-navbar .navbar-brand { font-size: 1.25rem; }
+    .custom-navbar .nav-link { margin: 0 8px; }
+}
+
+/* Slightly lift the nav items visually */
+.custom-navbar .nav-link { margin-top: 6px; }
+
+.custom-navbar .user-greeting { color: #666; font-weight: 600; margin-right: 12px; }

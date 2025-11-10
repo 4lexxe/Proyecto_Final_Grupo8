@@ -37,7 +37,7 @@ function NavigationBar() {
 
   return (
     <Navbar className="custom-navbar" expand="xxl" sticky="top">
-      <Container >
+      <Container>
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <FaRocket className="me-2" />
           <span>Proyecto Grupo 8</span>
