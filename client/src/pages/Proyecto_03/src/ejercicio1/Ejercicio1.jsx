@@ -30,13 +30,14 @@ function Ejercicio1() {
       case 4:
         setMensajeError("Los valores de la suma no son correctos.");
         break;
-      case 5:
+      case 5: {
         const valorEncontrado = cadenasResueltas[datosX.cadConX][datosX.posX];
         const ecuacionTexto = `${cadenasResueltas[0].join("")} + ${cadenasResueltas[1].join("")} = ${cadenasResueltas[2].join("")}`;
         setValorX(`Valor de X = ${valorEncontrado}`);
         setEcuacion(`Ecuación: ${ecuacionTexto}`);
         setMensajeError("");
         break;
+      }
       default:
         setMensajeError("Error desconocido");
     }

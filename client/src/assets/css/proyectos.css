@@ -1,0 +1,104 @@
+/* Estilos generales */
+.proyectos-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 40px 20px;
+}
+
+.proyectos-title {
+  text-align: center;
+  color: #8f4790;
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 50px;
+  text-shadow: 2px 2px 4px rgba(143, 71, 144, 0.1);
+}
+
+.proyectos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.proyecto-card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(143, 71, 144, 0.15);
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+}
+
+.proyecto-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(143, 71, 144, 0.25);
+  border-color: #8f4790;
+}
+
+.proyecto-card h3 {
+  color: #8f4790;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.proyecto-card p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.proyecto-ejercicios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.ejercicio-btn {
+  padding: 10px 20px;
+  background: #8f4790;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.ejercicio-btn:hover {
+  background: #824283;
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(143, 71, 144, 0.3);
+}
+
+.proyecto-badge {
+  display: inline-block;
+  padding: 5px 15px;
+  background: #f3e5f3;
+  color: #8f4790;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .proyectos-title {
+    font-size: 36px;
+  }
+
+  .proyectos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .proyecto-card {
+    padding: 20px;
+  }
+}

@@ -1,180 +1,163 @@
-import { useState, useEffect, useRef } from "react";
-import { FaCalendarAlt } from 'react-icons/fa';
+import { useState, useRef } from "react";
+import { FaTimes, FaVolumeUp, FaCalendarAlt } from 'react-icons/fa';
 import { speakEnglish } from "../../utils/speechUtils";
 import { playCorrectSound, playIncorrectSound } from "../../utils/soundUtils";
-import MonsterCelebration from "./MonsterCelebration";
 import "../../assets/css/games.css";
 
 const DAYS = [
-  { es: "Monday", en: "lunes" },
-  { es: "Tuesday", en: "martes" },
-  { es: "Wednesday", en: "miércoles" },
-  { es: "Thursday", en: "jueves" },
-  { es: "Friday", en: "viernes" },
-  { es: "Saturday", en: "sábado" },
-  { es: "Sunday", en: "domingo" },
+    { es: "Monday", en: "lunes" },
+    { es: "Tuesday", en: "martes" },
+    { es: "Wednesday", en: "miércoles" },
+    { es: "Thursday", en: "jueves" },
+    { es: "Friday", en: "viernes" },
+    { es: "Saturday", en: "sábado" },
+    { es: "Sunday", en: "domingo" },
 ];
 
-const rand = (n) => Math.floor(Math.random() * n);
-
-// pickOptions: elige `count` índices distintos de DAYS aleatoriamente
 function pickOptions(count = 3) {
-  const indices = new Set();
-  while (indices.size < count) indices.add(rand(DAYS.length));
-  return Array.from(indices);
+    const indices = new Set();
+    while (indices.size < count) indices.add(Math.floor(Math.random() * DAYS.length));
+    return Array.from(indices);
 }
 
-function Game_4({onFinish, addToTotal, totalScore }) {
-  // rounds: cuántos aciertos correctos se han conseguido en este nivel
-  const [rounds, setRounds] = useState(0);
-  // levelScore: puntuación local del nivel
-  const [levelScore, setLevelScore] = useState(0);
-  // options: índices de DAYS mostrados (3 opciones)
-  const [options, setOptions] = useState(() => pickOptions(3));
-  // targetPos: posición (0..2) de la opción correcta dentro de `options`
-  const [targetPos, setTargetPos] = useState(() => Math.floor(Math.random() * 3));
-  const [showMonsterCelebration, setShowMonsterCelebration] = useState(false);
+function Game_4({ onFinish, addToTotal, totalScore}) {
+    const [rounds, setRounds] = useState(0);
+    const [levelScore, setLevelScore] = useState(0);
+    const [options, setOptions] = useState(() => pickOptions(3));
+    const [targetPos, setTargetPos] = useState(() => Math.floor(Math.random() * 3));
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [showFeedback, setShowFeedback] = useState(false);
+    const [isCorrect, setIsCorrect] = useState(false);
+    const prevCorrectRef = useRef(null);
 
-  useEffect(() => {
-    resetLevel();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const nextRoundSetup = () => {
+        let newOptions, newTarget;
+        const prev = prevCorrectRef.current;
+        do {
+            newOptions = pickOptions(3);
+            newTarget = Math.floor(Math.random() * 3);
+        } while (prev != null && newOptions[newTarget] === prev);
+        setOptions(newOptions);
+        setTargetPos(newTarget);
+    };
 
-  const resetLevel = () => {
-    setRounds(0);
-    setLevelScore(0);
-    setOptions(pickOptions(3));
-    setTargetPos(rand(3));
-  };
+    const handleChoice = async (choicePos) => {
+        if (showFeedback) return;
 
-  const prevCorrectRef = useRef(null);
+        const correct = choicePos === targetPos;
+        const selectedDay = DAYS[options[choicePos]];
 
-  // nextRoundSetup: preparar nuevas opciones y objetivo para la siguiente repetición
-  const nextRoundSetup = () => {
-    let newOptions, newTarget;
-    const prev = prevCorrectRef.current;
-    do {
-      newOptions = pickOptions(3);
-      newTarget = rand(3);
-    } while (prev != null && newOptions[newTarget] === prev);
-    setOptions(newOptions);
-    setTargetPos(newTarget);
-  };
+        setSelectedOption(choicePos);
+        setIsCorrect(correct);
+        setShowFeedback(true);
 
-  // animated feedback state
-  const [animatedPos, setAnimatedPos] = useState(null);
-  const [animType, setAnimType] = useState(null);
+        if (correct) {
+            prevCorrectRef.current = options[targetPos];
+            await playCorrectSound();
+            await speakEnglish(selectedDay.es);
+            setLevelScore(levelScore + 1);
+            addToTotal?.(1);
+        } else {
+            playIncorrectSound();
+            addToTotal?.(-1);
+            setLevelScore(s => s - 1);
+        }
+    };
 
-  const CORRECT_DELAY = 2500;
-  const INCORRECT_DELAY = 360;
+    const handleContinue = () => {
+        const nextRound = rounds + (isCorrect ? 1 : 0);
+        setRounds(nextRound);
+        setSelectedOption(null);
+        setShowFeedback(false);
 
-  const handleChoice = async (choicePos) => {
-    const correct = choicePos === targetPos;
-    const selectedDay = DAYS[options[choicePos]];
+        if (nextRound >= 5) {
+            onFinish?.(levelScore);
+        } else if (isCorrect) {
+            nextRoundSetup();
+        }
+    };
 
-    if (!correct) {
-      setAnimatedPos(choicePos);
-      setAnimType("incorrect");
-      playIncorrectSound();
-      addToTotal?.(-1);
-      setLevelScore((s) => s - 1);
-      setTimeout(() => {
-        setAnimatedPos(null);
-        setAnimType(null);
-      }, INCORRECT_DELAY);
-      return;
-    }
+    const handleSpeak = () => speakEnglish(DAYS[options[targetPos]].es);
 
-    setAnimatedPos(choicePos);
-    setAnimType("correct");
-    setShowMonsterCelebration(true);
-    prevCorrectRef.current = options[targetPos];
+    return (
+        <div className="game-container">
+            <main className="game-main">
+                <div className="game-content">
+                    <div className="game-question-header">
+                        <div className="game-icon-box">
+                            <FaCalendarAlt style={{ color: 'white' }} />
+                        </div>
+                        <h2 className="game-question-title">
+                            Selecciona el día en español
+                        </h2>
+                    </div>
 
-    await playCorrectSound();
-    await speakEnglish(selectedDay.es);
+                    <div className="game-word-box">
+                        <button onClick={handleSpeak} className="game-speak-btn">
+                            <FaVolumeUp size={32} />
+                        </button>
+                        <h1 className="game-word-text">{DAYS[options[targetPos]].en}</h1>
+                    </div>
 
-    const updatedLevelScore = levelScore + 1;
-    setTimeout(() => {
-      setLevelScore(updatedLevelScore);
-      addToTotal?.(1);
-      const nextRound = rounds + 1;
-      setRounds(nextRound);
-      setAnimatedPos(null);
-      setAnimType(null);
-      setShowMonsterCelebration(false);
-      if (nextRound >= 5) return onFinish(updatedLevelScore);
-      nextRoundSetup();
-    }, CORRECT_DELAY);
-  };
+                    <div className="game-options">
+                        {options.map((optIndex, pos) => {
+                            const day = DAYS[optIndex];
+                            const isSelected = selectedOption === pos;
+                            const classes = ["game-option-btn"];
+                            
+                            if (showFeedback && isSelected) {
+                                classes.push(isCorrect ? "game-option-correct" : "game-option-incorrect");
+                                if (!isCorrect) classes.push("shake");
+                            }
 
-  const percent = Math.round((rounds / 5) * 100);
+                            return (
+                                <button
+                                    key={day.es + pos}
+                                    onClick={() => handleChoice(pos)}
+                                    disabled={showFeedback}
+                                    className={classes.join(" ")}
+                                >
+                                    {day.es}
+                                    {showFeedback && isSelected && (
+                                        <div className={`game-option-badge ${isCorrect ? 'correct' : 'incorrect'}`}>
+                                            {isCorrect ? '✓' : '✗'}
+                                        </div>
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
 
-  return (
-    <div className="ig-card" style={{ position: 'relative' }}>
-      {showMonsterCelebration && <MonsterCelebration />}
-      
-      <div className="ig-header">
-        <h3 className="ig-title">
-          <FaCalendarAlt style={{ marginRight: '12px', color: '#ff6b9d' }} />
-          Weekdays — Días de la semana
-        </h3>
-        <div className="ig-subtitle">Selecciona el día en español que corresponde al nombre en inglés</div>
-        
-        <div className="ig-stats">
-          <div className="ig-stat">
-            <span className="label">Nivel</span>
-            <span className="value">{rounds}/5</span>
-          </div>
-          <div className="ig-stat">
-            <span className="label">Puntos</span>
-            <span className="value">{levelScore}</span>
-          </div>
-          {typeof totalScore !== "undefined" && (
-            <div className="ig-stat">
-              <span className="label">Total</span>
-              <span className="value">{totalScore}</span>
-            </div>
-          )}
+                    <div className="game-score-footer">
+                        NIVEL {rounds}/5 • PUNTOS {totalScore}
+                    </div>
+                </div>
+            </main>
+
+            {showFeedback && (
+                <div className={`game-feedback ${isCorrect ? 'correct' : 'incorrect'}`}>
+                    <div className="game-feedback-content">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                            <div className={`game-feedback-icon ${isCorrect ? 'correct' : 'incorrect'}`}>
+                                {isCorrect ? '✓' : '✗'}
+                            </div>
+                            <div>
+                                <h3 className={`game-feedback-title ${isCorrect ? 'correct' : 'incorrect'}`}>
+                                    {isCorrect ? '¡Excelente!' : '¡Respuesta incorrecta!'}
+                                </h3>
+                            </div>
+                        </div>
+                        <button 
+                            onClick={handleContinue}
+                            className={`game-continue-btn ${isCorrect ? 'correct' : 'incorrect'}`}
+                        >
+                            CONTINUAR
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
-      </div>
-
-      <div className="ig-question-area">
-        <div className="ig-question-box">
-          <div className="ig-question-text">{DAYS[options[targetPos]].en}</div>
-        </div>
-      </div>
-
-      <div className="ig-options ig-options-grid">
-        {options.map((optIndex, pos) => {
-          const d = DAYS[optIndex];
-          const classes = ["ig-btn", "ig-day-btn"];
-          if (animatedPos === pos) {
-            if (animType === "incorrect") classes.push("shake", "ig-incorrect");
-            else if (animType === "correct") classes.push("ig-correct");
-          }
-          return (
-            <button
-              key={d.es + "-" + pos}
-              onClick={() => handleChoice(pos)}
-              aria-label={d.es}
-              className={classes.join(" ")}
-            >
-              {d.es}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="ig-progress-container">
-        <div className="ig-progress">
-          <span style={{ width: `${percent}%` }} />
-        </div>
-        <div style={{ marginTop: 12, textAlign: "center", color: "#999", fontSize: 14, fontWeight: 600 }}>
-          {percent}% completado
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Game_4;

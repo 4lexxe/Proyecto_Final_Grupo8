@@ -1,99 +1,59 @@
-import { Card, Container, Row, Col } from 'react-bootstrap';
-import { FaFolder, FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import '../assets/css/proyectos.css';
 
-const Proyectos = () => {
-    const proyectos = [
-        {
-            numero: 2,
-            titulo: 'Proyecto 2 - JavaScript Básico',
-            descripcion: 'Ejercicios de JavaScript: cálculos, promedios, cadenas y formularios',
-            ejercicios: [
-                { nombre: 'Ejercicio 1 - Comparar Números', path: '/proyecto02/ejercicio1' },
-                { nombre: 'Ejercicio 2 - Calcular Promedio', path: '/proyecto02/ejercicio2' },
-                { nombre: 'Ejercicio 3 - Detector de Tecla 3', path: '/proyecto02/ejercicio3' },
-                { nombre: 'Ejercicio 4 - Formulario Estudiante', path: '/proyecto02/ejercicio4' },
-                { nombre: 'Ejercicio 5 - Simulador de Salario', path: '/proyecto02/ejercicio5' }
-            ]
-        },
-       {
-    numero: 3,
-    titulo: 'Proyecto 3 - JavaScript Registro',
-    descripcion: 'Aplicación web simple para una clínica veterinaria, permite registrar mascotas y visualizar su información básica.',
-    ejercicios: [
-        { nombre: 'Ejercicio 1 - Resolvedor de Ecuaciones', path: '/proyecto03/ejercicio1' },
-        { nombre: 'Ejercicio 2 - Sistema de Registro y Búsqueda de Mascotas', path: '/proyecto03/ejercicio2' },
-    ]
-},
+function Proyectos() {
+  return (
+    <div className="proyectos-page">
+      <h1 className="proyectos-title">Nuestros Proyectos</h1>
+      
+      <div className="proyectos-grid">
+        {/* Proyecto 02 */}
+        <div className="proyecto-card">
+          <span className="proyecto-badge">Proyecto 02</span>
+          <h3>Ejercicios JavaScript</h3>
+          <p>Colección de ejercicios prácticos usando JavaScript vanilla y React.</p>
+          <div className="proyecto-ejercicios">
+            <Link to="/proyecto02/ejercicio1" className="ejercicio-btn">Ejercicio 1</Link>
+            <Link to="/proyecto02/ejercicio2" className="ejercicio-btn">Ejercicio 2</Link>
+            <Link to="/proyecto02/ejercicio3" className="ejercicio-btn">Ejercicio 3</Link>
+            <Link to="/proyecto02/ejercicio4" className="ejercicio-btn">Ejercicio 4</Link>
+            <Link to="/proyecto02/ejercicio5" className="ejercicio-btn">Ejercicio 5</Link>
+          </div>
+        </div>
 
-        {
-            numero: 4,
-            titulo: 'Proyecto 4 - React Interactivo',
-            descripcion: 'Juegos interactivos: Adivina el Número y Juego de Colores',
-            ejercicios: [
-                { nombre: 'Ver Proyecto 4 - Juegos React', path: '/proyecto04' }
-            ]
-        },
-        {
-            numero: 5,
-            titulo: 'Proyecto 5 - React Avanzado',
-            descripcion: 'Gestión de juegos y el juego Atrapa las Estrellas',
-            ejercicios: [
-                { nombre: 'Ver Proyecto 5 - Formularios y Juegos', path: '/proyecto05' }
-            ]
-        }
-    ];
+        {/* Proyecto 03 */}
+        <div className="proyecto-card">
+          <span className="proyecto-badge">Proyecto 03</span>
+          <h3>React Components</h3>
+          <p>Implementación de componentes React con navegación y estado.</p>
+          <div className="proyecto-ejercicios">
+            <Link to="/proyecto03/ejercicio1" className="ejercicio-btn">Ejercicio 1</Link>
+            <Link to="/proyecto03/ejercicio2" className="ejercicio-btn">Ejercicio 2</Link>
+          </div>
+        </div>
 
-    return (
-        <Container className="py-4">
-            <h1 className="mb-4 text-center">
-                <FaFolder className="me-2" />
-                Proyectos del Grupo 8
-            </h1>
-            
-            <Row className="g-4">
-                {proyectos.map((proyecto) => (
-                    <Col key={proyecto.numero} xs={12} md={6} lg={6}>
-                        <Card className="h-100 shadow-sm">
-                            <Card.Header className="bg-primary text-white">
-                                <h5 className="mb-0">
-                                    <FaFolder className="me-2" />
-                                    {proyecto.titulo}
-                                </h5>
-                            </Card.Header>
-                            <Card.Body>
-                                <Card.Text className="text-muted mb-3">
-                                    {proyecto.descripcion}
-                                </Card.Text>
-                                
-                                {proyecto.ejercicios.length > 0 ? (
-                                    <div>
-                                        <h6 className="mb-3">Ejercicios disponibles:</h6>
-                                        <div className="d-flex flex-column gap-2">
-                                            {proyecto.ejercicios.map((ejercicio, idx) => (
-                                                <Link
-                                                    key={idx}
-                                                    to={ejercicio.path}
-                                                    className="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-between text-decoration-none"
-                                                >
-                                                    <span>{ejercicio.nombre}</span>
-                                                    <FaArrowRight size={12} />
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="text-center text-muted py-3">
-                                        <p>Sin ejercicios disponibles aún</p>
-                                    </div>
-                                )}
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
-        </Container>
-    );
+        {/* Proyecto 04 */}
+        <div className="proyecto-card">
+          <span className="proyecto-badge">Proyecto 04</span>
+          <h3>Aplicación Avanzada</h3>
+          <p>Proyecto avanzado con funcionalidades completas.</p>
+          <div className="proyecto-ejercicios">
+            <Link to="/proyecto04" className="ejercicio-btn">Ver Proyecto</Link>
+          </div>
+        </div>
+
+        {/* Proyecto 05 */}
+        <div className="proyecto-card">
+          <span className="proyecto-badge">Proyecto 05</span>
+          <h3>Proyecto 05 en React</h3>
+          <p>Proyecto integrador con todas las tecnologías aprendidas.</p>
+          <div className="proyecto-ejercicios">
+            <Link to="/proyecto05" className="ejercicio-btn">Ver Proyecto</Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Proyectos;

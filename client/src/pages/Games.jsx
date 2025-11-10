@@ -6,6 +6,7 @@ import Game_4 from "../components/InglishGames/Game_4";
 import Game_5 from "../components/InglishGames/Game_5";
 import GameCompletionScreen from "../components/InglishGames/GameCompletionScreen";
 import "../assets/css/games.css";
+import { authService } from '../services/authService';
 
 const GAME_TITLES = [
   "Colors — Match the word",
@@ -14,8 +15,6 @@ const GAME_TITLES = [
   "Weekdays — Días de la semana",
   "Body Parts — Match the Word",
 ];
-
-import { authService } from '../services/authService';
 
 export function Games() {
   const [currentGameIndex, setCurrentGameIndex] = useState(0);
@@ -37,10 +36,15 @@ export function Games() {
         setCurrentGameIndex(currentGameIndex + 1);
         setIsTransitioning(false);
       } else {
-        // Guardar maxPuntos en la BD si corresponde, luego mostrar pantalla de completación
+        // Solo intentar guardar si hay usuario logueado
         (async () => {
           try {
-            await authService.updateMaxPuntos(totalScore).catch(err => console.log('No se pudo actualizar maxPuntos:', err.message));
+            const user = authService.getCurrentUser();
+            if (user) {
+              await authService.updateMaxPuntos(totalScore).catch(err => 
+                console.log('No se pudo actualizar maxPuntos:', err.message)
+              );
+            }
           } catch (e) {
             console.log('Error al intentar guardar maxPuntos', e.message || e);
           } finally {
@@ -52,7 +56,6 @@ export function Games() {
   };
 
   const handleCompletionFinish = () => {
-    // Reiniciar todo
     setShowCompletion(false);
     setCurrentGameIndex(0);
     setTotalScore(0);
@@ -96,7 +99,7 @@ export function Games() {
           animation: "fadeIn 0.6s ease-out"
         }}>
           <h1 style={{ 
-            color: "#ff6b9d", 
+            color: "#8f4790", 
             fontWeight: 800,
             fontSize: "42px",
             marginBottom: "10px"
@@ -122,7 +125,7 @@ export function Games() {
             <div style={{
               width: `${((currentGameIndex + 1) / 5) * 100}%`,
               height: "100%",
-              background: "linear-gradient(90deg, #ff6b9d 0%, #ff8ab5 100%)",
+              background: "linear-gradient(90deg, #8f4790 0%, #a855a8 100%)",
               borderRadius: "4px",
               transition: "width 0.6s ease-out"
             }} />

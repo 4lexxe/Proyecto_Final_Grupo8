@@ -1,726 +1,298 @@
-.ig-btn {
-  transition: box-shadow 120ms ease, transform 120ms ease;
-}
+/* Animaciones */
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
 
-@keyframes ig-shake {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-8px); }
-  40% { transform: translateX(8px); }
-  60% { transform: translateX(-6px); }
-  80% { transform: translateX(6px); }
-  100% { transform: translateX(0); }
-}
-
-.shake {
-  animation: ig-shake 360ms ease-in-out;
-}
-
-.ig-correct {
-  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.25);
-}
-
-.ig-incorrect {
-  box-shadow: 0 0 0 4px rgba(244, 67, 54, 0.25);
-}
-
-/* Header, stats and card styles for the minigames */
-.ig-card {
-  max-width: 800px;
-  margin: 100px auto 40px auto;
+/* Contenedor principal */
+.game-container {
+  min-height: auto;
   background: white;
-  border-radius: 16px;
-  padding: 0;
-  box-shadow: 0 4px 20px rgba(255, 107, 157, 0.15);
-  border: 2px solid #ff6b9d;
-  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
 }
 
-/* Wrapper para transición de todo el contenedor del juego */
-.game-transition-wrapper {
-  transition: all 0.5s ease-out;
+/* Header */
+.game-header {
+  background: white;
+  border-bottom: 2px solid #e5e5e5;
+  padding: 12px 16px;
 }
 
-.game-transition-wrapper.game-exit {
-  animation: slideOutToLeft 0.5s ease-out forwards;
+.game-header-content {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-.game-transition-wrapper.game-enter {
-  animation: slideInFromRight 0.5s ease-out;
+.game-close-btn {
+  color: #afafaf;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  transition: color 0.2s;
 }
 
-/* Animaciones de transición entre juegos */
-@keyframes slideInFromRight {
-  from {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+.game-close-btn:hover { color: #777; }
 
-@keyframes slideOutToLeft {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(-100px);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slideInFromBottom {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Barra de progreso superior */
-.ig-progress-bar-top {
-  width: 100%;
+.game-progress-bar {
+  flex: 1;
   height: 16px;
   background: #e5e5e5;
-  border-radius: 16px 16px 0 0;
+  border-radius: 16px;
   overflow: hidden;
-  position: relative;
 }
 
-.ig-progress-bar-top::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
+.game-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #58cc02 0%, #58cc02 100%);
+  background: #58cc02;
   transition: width 0.3s ease;
+  border-radius: 16px;
 }
 
-.ig-header {
+.game-hearts {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: #3c3c3c;
+}
+
+/* Main */
+.game-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.game-content {
+  max-width: 48rem;
+  width: 100%;
+}
+
+/* Pregunta */
+.game-question-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.game-icon-box {
+  width: 48px;
+  height: 48px;
+  background: #58cc02;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.game-question-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #8f4790;
+  margin: 0;
+}
+
+.game-word-box {
+  background: white;
+  border: 4px solid #e5e5e5;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 0 0 #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.game-speak-btn {
+  color: #1cb0f6;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.game-speak-btn:hover { color: #1899d6; }
+
+.game-word-text {
+  font-size: 48px;
+  font-weight: 700;
+  color: #8f4790;
+  margin: 0;
+}
+
+/* Opciones */
+.game-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.game-option-btn {
+  position: relative;
+  height: 100px;
+  border-radius: 16px;
+  border: 4px solid #e5e5e5;
+  box-shadow: 0 4px 0 0 #e5e5e5;
+  background: white;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 700;
+  font-size: 20px;
+  color: #3c3c3c;
+}
+
+.game-option-btn:hover { background: #f7f7f7; }
+.game-option-btn:active { transform: translateY(4px); box-shadow: 0 0 0 0 #e5e5e5; }
+.game-option-btn:disabled { cursor: not-allowed; }
+
+.game-option-correct {
+  border-color: #58cc02 !important;
+  box-shadow: 0 4px 0 0 #58a700 !important;
+}
+
+.game-option-incorrect {
+  border-color: #ff4b4b !important;
+  box-shadow: 0 4px 0 0 #ea2b2b !important;
+}
+
+.shake { animation: shake 0.4s ease; }
+
+.game-option-badge {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: white;
+  border: 4px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.game-option-badge.correct { border-color: #58cc02; color: #58cc02; }
+.game-option-badge.incorrect { border-color: #ff4b4b; color: #ff4b4b; }
+
+/* Tipos de botones */
+.game-number-btn { font-size: 24px; }
+.game-emoji-btn { font-size: 48px; }
+.emoji-large { font-size: 56px; }
+.game-image-btn { padding: 16px; height: 120px; }
+.game-image-btn img { width: 100%; height: 100%; object-fit: contain; }
+
+/* Score */
+.game-score-footer {
+  text-align: center;
+  color: #8f4790;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Feedback */
+.game-feedback {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  z-index: 50;
+}
+
+.game-feedback.correct {
+  background: #d7ffb8;
+  border-top: 2px solid #58cc02;
+}
+
+.game-feedback.incorrect {
+  background: #ffdfe0;
+  border-top: 2px solid #ff4b4b;
+}
+
+.game-feedback-content {
+  max-width: 80rem;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 14px;
-  animation: slideInFromBottom 0.6s ease-out 0.1s backwards;
 }
 
-/* Header con título */
-.ig-header {
-  padding: 32px 40px 24px;
-  background: linear-gradient(135deg, #fff5f8 0%, #ffffff 100%);
-  border-bottom: 2px solid #ffe6f0;
+.game-feedback-icon {
+  font-size: 48px;
 }
 
-.ig-title {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-  color: #132033;
-}
+.game-feedback-icon.correct { color: #58cc02; }
+.game-feedback-icon.incorrect { color: #ff4b4b; }
 
-.ig-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #ff6b9d;
-  margin: 0 0 8px 0;
-  text-align: center;
-}
-
-.ig-subtitle {
-  margin-top: 4px;
-  font-size: 13px;
-  color: #556772;
-}
-
-.ig-subtitle {
-  font-size: 18px;
-  color: #666;
-  text-align: center;
-  margin: 0 0 20px 0;
-  font-weight: 500;
-}
-
-.ig-stats {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.ig-stats {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-top: 16px;
-}
-
-.ig-stat {
-  background: #fff;
-  border: 1px solid #eef2f5;
-  padding: 8px 12px;
-  border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(18, 38, 63, 0.04);
-  min-width: 92px;
-  text-align: center;
-}
-
-.ig-stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px 20px;
-  background: white;
-  border-radius: 12px;
-  border: 2px solid #ff6b9d;
-  box-shadow: 0 2px 8px rgba(255, 107, 157, 0.1);
-}
-
-.ig-stat .label {
-  display: block;
-  font-size: 12px;
-  color: #6b7b88;
-}
-
-.ig-stat .label {
-  font-size: 13px;
-  color: #999;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.ig-stat .value {
-  display: block;
-  font-size: 16px;
-  font-weight: 700;
-  color: #132033;
-}
-
-.ig-stat .value {
+.game-feedback-title {
   font-size: 24px;
   font-weight: 700;
-  color: #ff6b9d;
-  margin-top: 4px;
+  margin: 0;
 }
 
-.ig-progress {
-  height: 8px;
-  background: #eef2f5;
-  border-radius: 999px;
-  overflow: hidden;
-  margin-top: 10px;
-}
+.game-feedback-title.correct { color: #58a700; }
+.game-feedback-title.incorrect { color: #ea2b2b; }
 
-.ig-progress {
-  width: 100%;
-  height: 16px;
-  background: #e5e5e5;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  margin: 0 auto;
-}
-
-.ig-progress > span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg,#1e88e5,#43a047);
-  width: 0%;
-  transition: width 300ms ease;
-}
-
-.ig-progress span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #58cc02 0%, #58cc02 100%);
-  transition: width 0.5s ease;
-  border-radius: 12px;
-}
-
-/* Final summary styles */
-.final-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
-  margin-top: 16px;
-}
-
-.final-item {
-  padding: 12px;
-  border-radius: 10px;
-  background: linear-gradient(180deg,#ffffff,#fbfdff);
-  border: 1px solid #eef2f5;
-}
-
-.final-badge {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
+.game-feedback-text {
+  color: #ea2b2b;
   font-weight: 700;
-  color: white;
+  margin: 4px 0 0;
 }
 
-.badge-good { background: #43a047; }
-.badge-mid  { background: #f6b042; }
-.badge-bad  { background: #ef5350; }
-.badge-pending { background: #90a4ae; }
-
-.final-score-big {
-  font-size: 36px;
-  font-weight: 800;
-  color: #132033;
-}
-
-.final-meta { color: #556772; font-size: 14px; }
-
-/* Zona de pregunta */
-.ig-question-area {
-  padding: 40px;
-  text-align: center;
-  animation: fadeIn 0.6s ease-out 0.2s backwards;
-}
-
-.ig-question-box {
-  display: inline-block;
-  padding: 24px 40px;
-  background: white;
-  border: 3px solid #e5e5e5;
+.game-continue-btn {
+  padding: 16px 32px;
   border-radius: 16px;
-  min-width: 280px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.ig-question-text {
-  font-size: 32px;
   font-weight: 700;
-  color: #3c3c3c;
-}
-
-/* Número grande en la pregunta */
-.ig-question-number {
-  font-size: 72px;
-  font-weight: 800;
-  color: #ff6b9d;
-  text-shadow: 0 4px 12px rgba(255, 107, 157, 0.2);
-  font-family: 'Arial', sans-serif;
-  line-height: 1;
-}
-
-/* Botones especiales para números */
-.ig-number-btn {
-  min-width: 160px;
-  height: 90px;
-  font-size: 22px;
-  font-weight: 700;
-  text-transform: capitalize;
-  letter-spacing: 0.5px;
-}
-
-.ig-number-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 0 #d7d7d7;
-}
-
-/* Mejora visual del question box para números */
-.ig-question-area .ig-question-box {
-  background: linear-gradient(135deg, #fff 0%, #fff5f8 100%);
-  border: 4px solid #ff6b9d;
-  box-shadow: 0 8px 24px rgba(255, 107, 157, 0.15);
-  padding: 40px 60px;
-  min-width: 200px;
-}
-
-/* Animación especial para el número */
-@keyframes pulse-number {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-.ig-question-number {
-  animation: pulse-number 2s ease-in-out infinite;
-}
-
-/* Grid responsive para opciones de números */
-.ig-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 16px;
-  padding: 0 40px 40px;
-  max-width: 700px;
-  margin: 0 auto;
-  animation: slideInFromBottom 0.6s ease-out 0.3s backwards;
-}
-
-/* Botones de opciones */
-.ig-options {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  padding: 0 40px 40px;
-}
-
-.ig-btn {
-  background: white;
-  border: 3px solid #e5e5e5;
-  border-radius: 16px;
-  padding: 20px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 20px;
-  font-weight: 600;
-  color: #3c3c3c;
-  box-shadow: 0 4px 0 #d7d7d7;
-  position: relative;
-  transform: translateY(0);
-  animation: fadeIn 0.4s ease-out backwards;
-}
-
-.ig-btn:hover {
-  background: #f7f7f7;
-  border-color: #d7d7d7;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 #d7d7d7;
-}
-
-.ig-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #d7d7d7;
-}
-
-.ig-btn:nth-child(1) {
-  animation-delay: 0.4s;
-}
-
-.ig-btn:nth-child(2) {
-  animation-delay: 0.5s;
-}
-
-.ig-btn:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-.ig-btn:nth-child(4) {
-  animation-delay: 0.7s;
-}
-
-/* Estado correcto */
-.ig-correct {
-  background: #d7ffb8 !important;
-  border-color: #58cc02 !important;
-  box-shadow: 0 4px 0 #58a700 !important;
-  animation: bounce 0.5s ease;
-}
-
-/* Estado incorrecto */
-.ig-incorrect {
-  background: #ffc9c9 !important;
-  border-color: #ff4b4b !important;
-  box-shadow: 0 4px 0 #ea2b2b !important;
-}
-
-/* Animación shake para incorrecta */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-10px); }
-  75% { transform: translateX(10px); }
-}
-
-.shake {
-  animation: shake 0.4s ease;
-}
-
-/* Animación bounce para correcta */
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-/* Barra de progreso inferior */
-.ig-progress {
-  width: 100%;
-  height: 16px;
-  background: #e5e5e5;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  margin: 0 auto;
-}
-
-.ig-progress span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #58cc02 0%, #58cc02 100%);
-  transition: width 0.5s ease;
-  border-radius: 12px;
-}
-
-/* Contenedor de progreso */
-.ig-progress-container {
-  padding: 0 40px 32px;
-  animation: slideInFromBottom 0.6s ease-out 0.4s backwards;
-}
-
-/* Botones de control estilo Duolingo */
-.ig-check-button {
-  width: 100%;
-  max-width: 400px;
-  margin: 24px auto 32px;
-  padding: 18px;
-  background: #58cc02;
+  font-size: 18px;
   color: white;
   border: none;
-  border-radius: 16px;
-  font-size: 18px;
-  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 0 #58a700;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.15);
+  transition: all 0.15s;
 }
 
-.ig-check-button:hover {
-  background: #5fd406;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 #58a700;
+.game-continue-btn.correct {
+  background: #58cc02;
+  border-bottom: 4px solid #58a700;
 }
 
-.ig-check-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0 #58a700;
+.game-continue-btn.correct:hover { background: #61e002; }
+
+.game-continue-btn.incorrect {
+  background: #ff4b4b;
+  border-bottom: 4px solid #ea2b2b;
 }
 
-.ig-check-button:disabled {
-  background: #e5e5e5;
-  color: #afafaf;
-  box-shadow: 0 4px 0 #d7d7d7;
-  cursor: not-allowed;
-}
+.game-continue-btn.incorrect:hover { background: #ff5a5a; }
+.game-continue-btn:active { transform: translateY(4px); border-bottom-width: 0; }
 
-/* Botón de saltar */
-.ig-skip-button {
-  background: transparent;
-  border: 2px solid #ff6b9d;
-  color: #ff6b9d;
-  padding: 12px 32px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin: 0 auto;
-  display: block;
-}
-
-.ig-skip-button:hover {
-  background: #fff5f8;
-  border-color: #ff5589;
-  color: #ff5589;
-}
-
-/* Estilos responsive */
+/* Responsive */
 @media (max-width: 768px) {
-  .ig-card {
-    margin: 20px;
-    border-radius: 12px;
+  .game-container {
+    padding-top: 56px;
   }
 
-  .ig-header {
-    padding: 24px 20px 16px;
+  .game-main {
+    padding: 12px;
   }
 
-  .ig-title {
-    font-size: 22px;
-  }
-
-  .ig-subtitle {
-    font-size: 16px;
-  }
-
-  .ig-stats {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .ig-options {
-    padding: 0 20px 24px;
-    gap: 12px;
-  }
-
-  .ig-btn {
-    padding: 16px;
-    font-size: 18px;
-  }
-
-  .ig-question-area {
-    padding: 24px 20px;
-  }
-
-  .ig-question-box {
-    padding: 20px 32px;
-    min-width: 220px;
-  }
-
-  .ig-question-text {
-    font-size: 24px;
-  }
-}
-
-/* Fondo de página */
-.games-page {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #fff5f8 0%, #ffffff 50%, #f0f9ff 100%);
-  padding: 90px 20px 20px 20px;
-}
-
-/* Botones específicos para colores */
-.ig-color-btn {
-  width: 160px;
-  height: 140px;
-  border: 4px solid transparent !important;
-  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15) !important;
-}
-
-.ig-color-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.15) !important;
-}
-
-/* Botones para animales (emojis) */
-.ig-emoji-btn {
-  width: 160px;
-  height: 140px;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.emoji-large {
-  font-size: 64px;
-  line-height: 1;
-}
-
-/* Botones para días de la semana */
-.ig-day-btn {
-  min-width: 180px;
-  height: 85px;
-  font-size: 20px;
-  font-weight: 700;
-  text-transform: capitalize;
-}
-
-/* Botones para partes del cuerpo (imágenes) */
-.ig-image-btn {
-  width: 160px;
-  height: 160px;
-  background: white;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.body-part-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-/* Grid de 3 columnas para opciones */
-.ig-options-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  padding: 0 40px 40px;
-  max-width: 650px;
-  margin: 0 auto;
-}
-
-/* Grid de 4 columnas para body parts */
-.ig-options-grid-4 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  padding: 0 40px 40px;
-  max-width: 450px;
-  margin: 0 auto;
-}
-
-/* Mejora del question box */
-.ig-question-box {
-  background: linear-gradient(135deg, #fff 0%, #fff5f8 100%);
-  border: 4px solid #ff6b9d;
-  box-shadow: 0 8px 24px rgba(255, 107, 157, 0.15);
-  padding: 32px 50px;
-  min-width: 250px;
-}
-
-.ig-question-text {
-  font-size: 38px;
-  font-weight: 800;
-  color: #ff6b9d;
-  text-shadow: 0 2px 8px rgba(255, 107, 157, 0.1);
-}
-
-/* Responsive para grids */
-@media (max-width: 768px) {
-  .ig-options-grid {
-    grid-template-columns: repeat(2, 1fr);
-    padding: 0 20px 24px;
-    max-width: 400px;
-  }
-
-  .ig-options-grid-4 {
-    grid-template-columns: repeat(2, 1fr);
-    padding: 0 20px 24px;
-  }
-
-  .ig-color-btn,
-  .ig-emoji-btn {
-    width: 130px;
-    height: 110px;
-  }
-
-  .ig-day-btn {
-    min-width: 140px;
-    height: 70px;
-    font-size: 16px;
-  }
-
-  .ig-image-btn {
-    width: 130px;
-    height: 130px;
-  }
-
-  .emoji-large {
-    font-size: 48px;
-  }
-
-  .ig-question-text {
-    font-size: 28px;
-  }
-
-  .ig-question-number {
-    font-size: 56px;
-  }
+  .game-options { grid-template-columns: 1fr; gap: 12px; }
+  .game-word-text { font-size: 32px; }
+  .game-question-title { font-size: 20px; }
+  .game-option-btn { height: 80px; }
+  .game-feedback-content { flex-direction: column; gap: 16px; }
+  .game-continue-btn { width: 100%; }
 }

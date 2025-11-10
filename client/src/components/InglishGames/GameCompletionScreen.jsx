@@ -59,7 +59,7 @@ const GameCompletionScreen = ({ totalScore, onComplete }) => {
         if (totalScore >= 20) return "#FFD700";
         if (totalScore >= 15) return "#4ecdc4";
         if (totalScore >= 10) return "#45b7d1";
-        return "#ff6b9d";
+        return "#8f4790";
     };
 
     const confetti = Array.from({ length: 50 }, (_, i) => (
@@ -69,7 +69,7 @@ const GameCompletionScreen = ({ totalScore, onComplete }) => {
             style={{
                 left: `${Math.random() * 100}%`,
                 animationDelay: `${Math.random() * 3}s`,
-                backgroundColor: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe'][Math.floor(Math.random() * 6)]
+                backgroundColor: ['#8f4790', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe'][Math.floor(Math.random() * 6)]
             }}
         />
     ));
@@ -89,8 +89,8 @@ const GameCompletionScreen = ({ totalScore, onComplete }) => {
                     background: 'white',
                     borderRadius: '20px',
                     padding: '30px 50px',
-                    boxShadow: '0 8px 32px rgba(255, 107, 157, 0.3)',
-                    border: '3px solid #ff6b9d',
+                    boxShadow: '0 8px 32px rgba(143, 71, 144, 0.3)',
+                    border: '3px solid #8f4790',
                     marginTop: '20px'
                 }}>
                     <h3 style={{ 
@@ -104,9 +104,9 @@ const GameCompletionScreen = ({ totalScore, onComplete }) => {
                     <div style={{
                         fontSize: '72px',
                         fontWeight: '900',
-                        color: '#ff6b9d',
+                        color: '#8f4790',
                         margin: '20px 0',
-                        textShadow: '0 4px 15px rgba(255, 107, 157, 0.3)'
+                        textShadow: '0 4px 15px rgba(143, 71, 144, 0.3)'
                     }}>
                         {totalScore} puntos
                     </div>
