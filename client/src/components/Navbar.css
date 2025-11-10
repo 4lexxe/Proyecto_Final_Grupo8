@@ -2,11 +2,32 @@
     background-color: white !important;
     border-bottom: 3px solid #ff6b9d;
     box-shadow: 0 2px 12px rgba(255, 107, 157, 0.12);
-    /* make navbar span almost full viewport width and give breathing room */
-    width: 96%;
-    margin: 12px auto 0 auto;
+    width: 100vw;
+    margin: 0;
     padding-top: 14px;
     padding-bottom: 14px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.navbar-content-wrapper {
+    max-width: 100%;
+    margin: 0;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.custom-navbar .container-fluid {
+    max-width: 95% !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
 }
 
 .custom-navbar .navbar-brand {
@@ -93,7 +114,18 @@
 
 /* Responsive tweaks: reduce spacing on small screens */
 @media (max-width: 768px) {
-    .custom-navbar { width: 100%; margin-top: 8px; padding-top: 8px; padding-bottom: 8px; }
+    .custom-navbar { 
+        width: 100vw; 
+        padding-top: 8px; 
+        padding-bottom: 8px; 
+    }
+    
+    .navbar-content-wrapper {
+        max-width: 100%;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
     .custom-navbar .navbar-brand { font-size: 1.25rem; }
     .custom-navbar .nav-link { margin: 0 8px; }
 }

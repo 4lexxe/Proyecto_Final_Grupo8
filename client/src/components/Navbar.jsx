@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Navbar, Nav, Container, Button, Dropdown } from 'react-bootstrap';
+import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
 import { FaUser, FaSignOutAlt, FaHome, FaFolderOpen, FaGamepad, FaUsers, FaRocket } from 'react-icons/fa';
 import { authService } from '../services/authService';
 import './Navbar.css';
@@ -37,7 +37,7 @@ function NavigationBar() {
 
   return (
     <Navbar className="custom-navbar" expand="xxl" sticky="top">
-      <Container>
+      <div className="navbar-content-wrapper">
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <FaRocket className="me-2" />
           <span>Proyecto Grupo 8</span>
@@ -113,7 +113,7 @@ function NavigationBar() {
             )}
           </Nav>
         </Navbar.Collapse>
-      </Container>
+      </div>
     </Navbar>
   );
 }
