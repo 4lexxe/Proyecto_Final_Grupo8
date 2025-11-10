@@ -19,40 +19,43 @@ import Ejercicio3 from './pages/Proyecto_02/Ejercicio3/ejercicio3.jsx';
 import Ejercicio4 from './pages/Proyecto_02/Ejercicio4/ejercicio4.jsx';
 import SimuladorSalario from './pages/Proyecto_02/ejercicio5/SimuladorSalario.jsx';
 import "bootstrap/dist/css/bootstrap.min.css";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import ProtectorRutas from "./components/ProtectorRutas.jsx";
 
 function App() {
   return (
     <>
+      <NavigationBar />
       <Routes>
-        {/* Rutas de autenticación sin Navbar */}
+        {/* Public routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/proyectos" element={<Proyectos />} />
+        <Route path="/nosotros" element={<AboutUs />} />
+        <Route path="/otraPagina" element={<OtraPagina />} />
+
+        {/* Auth routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Rutas con Navbar y protegidas */}
-        <Route path="/*" element={
-          <ProtectedRoute>
-            <NavigationBar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/proyectos" element={<Proyectos />} />
-              <Route path="/games" element={<Games />} />
-              <Route path="/proyecto03/ejercicio1" element={<Proyecto03Ej1 />} />
-              <Route path="/proyecto03/ejercicio2" element={<Proyecto03Ej2 />} />
-              <Route path="/proyecto04" element={<Proyecto04 />} />
-              <Route path="/proyecto05" element={<Proyecto05 />} />
-              <Route path="/nosotros" element={<AboutUs />} />
-              <Route path="/otraPagina" element={<OtraPagina />} />
-              <Route path="/unauthorized" element={<NoAutorizados />} />
-              <Route path="/proyecto02/ejercicio1" element={<Ejercicio1 />} />
-              <Route path="/proyecto02/ejercicio2" element={<Ejercicio2 />} />
-              <Route path="/proyecto02/ejercicio3" element={<Ejercicio3 />} />
-              <Route path="/proyecto02/ejercicio4" element={<Ejercicio4 />} />
-              <Route path="/proyecto02/ejercicio5" element={<SimuladorSalario />} />
-              <Route path="*" element={<Error />} />
-            </Routes>
-          </ProtectedRoute>
+        {/* Protected games route */}
+        <Route path="/games" element={
+          <ProtectorRutas>
+            <Games />
+          </ProtectorRutas>
         } />
+
+        {/* other routes (public) */}
+        <Route path="/proyecto03/ejercicio1" element={<Proyecto03Ej1 />} />
+        <Route path="/proyecto03/ejercicio2" element={<Proyecto03Ej2 />} />
+        <Route path="/proyecto04" element={<Proyecto04 />} />
+        <Route path="/proyecto05" element={<Proyecto05 />} />
+        <Route path="/proyecto02/ejercicio1" element={<Ejercicio1 />} />
+        <Route path="/proyecto02/ejercicio2" element={<Ejercicio2 />} />
+        <Route path="/proyecto02/ejercicio3" element={<Ejercicio3 />} />
+        <Route path="/proyecto02/ejercicio4" element={<Ejercicio4 />} />
+        <Route path="/proyecto02/ejercicio5" element={<SimuladorSalario />} />
+
+        <Route path="/unauthorized" element={<NoAutorizados />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </>
   );

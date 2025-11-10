@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Container, Card, ListGroup, Badge } from 'react-bootstrap';
+import { Container, Card, ListGroup, Badge, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { authService } from '../services/authService';
 import '../assets/css/home.css';
 
@@ -13,9 +14,13 @@ function Home() {
 
     if (!user) {
         return (
-            <Container className="home-container">
+            <Container className="home-container" style={{ textAlign: 'center' }}>
                 <h1 style={{ color: '#ff6b9d', fontWeight: 800 }}>Bienvenido</h1>
-                <p style={{ color: '#666' }}>Para iniciar sesión, haz clic en "Iniciar sesión" en el menú superior.</p>
+                <p style={{ color: '#666' }}>Para acceder a los minijuegos necesitas iniciar sesión.</p>
+                <div style={{ marginTop: 20 }}>
+                    <Button as={Link} to="/login" className="btn-custom-outline" style={{ marginRight: 10 }}>Iniciar sesión</Button>
+                    <Button as={Link} to="/register" className="btn-custom-primary">Registrarse</Button>
+                </div>
             </Container>
         );
     }

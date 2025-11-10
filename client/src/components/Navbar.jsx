@@ -32,12 +32,12 @@ function NavigationBar() {
   const handleLogout = () => {
     authService.logout();
     setUser(null);
-    navigate('/login');
+    navigate('/');
   };
 
   return (
-    <Navbar className="custom-navbar" expand="lg" sticky="top">
-      <Container>
+    <Navbar className="custom-navbar" expand="xxl" sticky="top">
+      <Container >
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <FaRocket className="me-2" />
           <span>Proyecto Grupo 8</span>
