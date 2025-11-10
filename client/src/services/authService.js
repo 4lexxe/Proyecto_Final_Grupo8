@@ -108,6 +108,9 @@ export const authService = {
   localStorage.setItem('user', JSON.stringify(data.user));
   // También sincronizamos la otra clave que usa el contexto si existe
   try { localStorage.setItem('LOCAL_STORAGE_KEY', JSON.stringify(data.user)); } catch (e) { /* ignore */ }
+  // Emitir eventos para que otros componentes/context listeners se sincronicen
+  try { window.dispatchEvent(new Event('userLoggedIn')); } catch (e) { /* ignore */ }
+  try { window.dispatchEvent(new Event('authChanged')); } catch (e) { /* ignore */ }
 
       return data;
     } catch (error) {
@@ -146,6 +149,8 @@ export const authService = {
     // Remove both possible storage keys to fully logout
     localStorage.removeItem('user');
     localStorage.removeItem('LOCAL_STORAGE_KEY');
+    try { window.dispatchEvent(new Event('userLoggedOut')); } catch (e) { /* ignore */ }
+    try { window.dispatchEvent(new Event('authChanged')); } catch (e) { /* ignore */ }
   },
 
   getCurrentUser() {

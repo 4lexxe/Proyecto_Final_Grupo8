@@ -64,6 +64,27 @@ export const AutorizacionesProvider = ({ children }) => {
         }
     }, [user]);
 
+    // Escuchar cambios externos (ej. login via authService) y sincronizar
+    useEffect(() => {
+        const syncFromStorage = () => {
+            try {
+                const stored = localStorage.getItem('LOCAL_STORAGE_KEY');
+                setUser(stored ? JSON.parse(stored) : null);
+            } catch (e) {
+                console.error('Error al sincronizar usuario desde localStorage:', e.message);
+            }
+        };
+
+        // storage event (cross-tab) and custom authChanged event
+        window.addEventListener('storage', syncFromStorage);
+        window.addEventListener('authChanged', syncFromStorage);
+
+        return () => {
+            window.removeEventListener('storage', syncFromStorage);
+            window.removeEventListener('authChanged', syncFromStorage);
+        };
+    }, []);
+
     const valorDelContexto = useMemo(() => ({
         user,
         isAuthenticated: !!user, //indicacion si esta autenticado
