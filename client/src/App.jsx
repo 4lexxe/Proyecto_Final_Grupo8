@@ -18,6 +18,7 @@ import Ejercicio2 from './pages/Proyecto_02/Ejercicio2/ejercicio2.jsx';
 import Ejercicio3 from './pages/Proyecto_02/Ejercicio3/ejercicio3.jsx';
 import Ejercicio4 from './pages/Proyecto_02/Ejercicio4/ejercicio4.jsx';
 import SimuladorSalario from './pages/Proyecto_02/ejercicio5/SimuladorSalario.jsx';
+import ProtectorRutas from "./components/ProtectorRutas.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -36,8 +37,11 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         {/* Games route - now public */}
-        <Route path="/games" element={<Games />} />
-
+        <Route path="/games" element={
+          <ProtectorRutas>
+            <Games />
+          </ProtectorRutas>
+        } />
         {/* rutas de proyectos */}
         <Route path="/proyecto03/ejercicio1" element={<Proyecto03Ej1 />} />
         <Route path="/proyecto03/ejercicio2" element={<Proyecto03Ej2 />} />
