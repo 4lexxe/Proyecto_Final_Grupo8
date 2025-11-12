@@ -59,12 +59,12 @@ function Game_5({ onFinish, addToTotal, totalScore}) {
         setShowFeedback(true);
 
         if (correct) {
+            addToTotal?.(1);
             setShowMonsterCelebration(true);
             prevCorrectRef.current = options[targetPos];
             await playCorrectSound();
             await speakEnglish(selectedPart.en);
             setLevelScore(levelScore + 1);
-            addToTotal?.(1);
         } else {
             playIncorrectSound();
             addToTotal?.(-1);

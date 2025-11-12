@@ -50,11 +50,11 @@ function Game_2({ onFinish, addToTotal, totalScore}) {
         setIsCorrect(correct);
         setShowFeedback(true);
         if (correct) {
+            addToTotal?.(1);
             prevCorrectRef.current = options[targetPos];
             await playCorrectSound();
             await speakEnglish(selectedAnimal.label);
             setLevelScore(levelScore + 1);
-            addToTotal?.(1);
         } else {
             playIncorrectSound();
             addToTotal?.(-1);

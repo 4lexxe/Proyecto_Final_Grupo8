@@ -55,11 +55,11 @@ function Game_3({ onFinish, addToTotal, totalScore}) {
         setShowFeedback(true);
 
         if (correct) {
+            addToTotal?.(1);
             prevCorrectRef.current = options[targetPos];
             await playCorrectSound();
             await speakEnglish(selectedNumber.label);
             setLevelScore(levelScore + 1);
-            addToTotal?.(1);
         } else {
             playIncorrectSound();
             addToTotal?.(-1);
