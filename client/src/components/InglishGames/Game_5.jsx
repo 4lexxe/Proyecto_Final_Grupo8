@@ -35,7 +35,6 @@ function Game_5({ onFinish, addToTotal, totalScore}) {
     const [showFeedback, setShowFeedback] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
     const [showMonsterCelebration, setShowMonsterCelebration] = useState(false);
-    const [isProcessing, setIsProcessing] = useState(false);
     const prevCorrectRef = useRef(null);
     
     const nextRoundSetup = () => {
@@ -50,9 +49,8 @@ function Game_5({ onFinish, addToTotal, totalScore}) {
     };
 
     const handleChoice = async (choicePos) => {
-        if (showFeedback || isProcessing) return;
+        if (showFeedback) return;
 
-        setIsProcessing(true);
         const correct = choicePos === targetPos;
         const selectedPart = PARTS_WITH_SRC[options[choicePos]];
 
@@ -73,11 +71,9 @@ function Game_5({ onFinish, addToTotal, totalScore}) {
             setLevelScore(s => s - 1);
         }
 
-        setIsProcessing(false);
     };
 
     const handleContinue = () => {
-        if (isProcessing) return;
 
         const nextRound = rounds + (isCorrect ? 1 : 0);
         setRounds(nextRound);
@@ -131,7 +127,7 @@ function Game_5({ onFinish, addToTotal, totalScore}) {
                                 <button
                                     key={part.file + pos}
                                     onClick={() => handleChoice(pos)}
-                                    disabled={showFeedback || isProcessing}
+                                    disabled={showFeedback }
                                     className={classes.join(" ")}
                                 >
                                     <img src={part.src} alt={part.es} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
@@ -166,7 +162,6 @@ function Game_5({ onFinish, addToTotal, totalScore}) {
                         </div>
                         <button 
                             onClick={handleContinue}
-                            disabled={isProcessing}
                             className={`game-continue-btn ${isCorrect ? 'correct' : 'incorrect'}`}
                         >
                             CONTINUAR

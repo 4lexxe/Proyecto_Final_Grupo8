@@ -49,7 +49,6 @@ function Game_2({ onFinish, addToTotal, totalScore}) {
         setSelectedOption(choicePos);
         setIsCorrect(correct);
         setShowFeedback(true);
-
         if (correct) {
             prevCorrectRef.current = options[targetPos];
             await playCorrectSound();

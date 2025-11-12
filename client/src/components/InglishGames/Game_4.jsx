@@ -77,7 +77,7 @@ function Game_4({ onFinish, addToTotal, totalScore}) {
         }
     };
 
-    const handleSpeak = () => speakEnglish(DAYS[options[targetPos]].es);
+    const handleSpeak = () => speakEnglish(DAYS[options[targetPos]].en);
 
     return (
         <div className="game-container">

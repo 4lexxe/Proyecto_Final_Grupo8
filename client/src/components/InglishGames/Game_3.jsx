@@ -115,7 +115,7 @@ function Game_3({ onFinish, addToTotal, totalScore}) {
 
                             return (
                                 <button
-                                    key={number.value + pos}
+                                    key={`${number.value}-${pos}-${rounds}`}
                                     onClick={() => handleChoice(pos)}
                                     disabled={showFeedback}
                                     className={classes.join(" ")}

@@ -27,7 +27,6 @@ function Game_1({ onFinish, addToTotal, totalScore }) {
     const [selectedOption, setSelectedOption] = useState(null);
     const [showFeedback, setShowFeedback] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
-    const [isSpeaking, setIsSpeaking] = useState(false);
     const prevCorrectRef = useRef(null);
     
     const nextRoundSetup = () => {
@@ -50,8 +49,6 @@ function Game_1({ onFinish, addToTotal, totalScore }) {
         setSelectedOption(choicePos);
         setIsCorrect(correct);
         setShowFeedback(true);
-        setIsSpeaking(true);
-
         if (correct) {
             prevCorrectRef.current = options[targetPos];
             await playCorrectSound();
@@ -64,11 +61,9 @@ function Game_1({ onFinish, addToTotal, totalScore }) {
             setLevelScore(s => s - 1);
         }
 
-        setIsSpeaking(false);
     };
 
     const handleContinue = () => {
-        if (isSpeaking) return;
 
         const nextRound = rounds + (isCorrect ? 1 : 0);
         setRounds(nextRound);
@@ -119,7 +114,7 @@ function Game_1({ onFinish, addToTotal, totalScore }) {
                                 <button
                                     key={color.name + pos}
                                     onClick={() => handleChoice(pos)}
-                                    disabled={showFeedback || isSpeaking}
+                                    disabled={showFeedback }
                                     className={classes.join(" ")}
                                     style={{ backgroundColor: color.css }}
                                 >
@@ -154,11 +149,9 @@ function Game_1({ onFinish, addToTotal, totalScore }) {
                         </div>
                         <button 
                             onClick={handleContinue}
-                            disabled={isSpeaking}
                             className={`game-continue-btn ${isCorrect ? 'correct' : 'incorrect'}`}
-                            style={{ opacity: isSpeaking ? 0.5 : 1, cursor: isSpeaking ? 'not-allowed' : 'pointer' }}
                         >
-                            {isSpeaking ? 'ESPERA...' : 'CONTINUAR'}
+                            CONTINUAR
                         </button>
                     </div>
                 </div>
@@ -167,4 +160,4 @@ function Game_1({ onFinish, addToTotal, totalScore }) {
     );
 }
 
-export default Game_1;
+export default Game_1;  
