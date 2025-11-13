@@ -1,14 +1,13 @@
 .celebration-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - var(--navbar-height, 80px));
     background-color: rgba(255, 255, 255, 0.95);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000;
+    z-index: 1000;
+    margin-top: 0; /* el navbar está fuera del flujo, así que este componente se renderiza debajo */
     animation: fadeIn 0.3s ease-in;
 }
 
@@ -16,7 +15,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
     animation: zoomIn 0.5s ease-out;
 }
 

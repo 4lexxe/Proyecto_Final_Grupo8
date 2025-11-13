@@ -56,9 +56,6 @@ export function Games() {
   };
 
   const handleCompletionFinish = () => {
-    setShowCompletion(false);
-    setCurrentGameIndex(0);
-    setTotalScore(0);
     setIsTransitioning(false);
   };
 

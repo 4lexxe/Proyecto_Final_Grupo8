@@ -9,16 +9,21 @@
     "client": "cd client && npm run dev",
     "server": "nodemon server.js"
   },
-  "keywords": ["express", "mongodb", "react", "nodejs"],
+  "keywords": [
+    "express",
+    "mongodb",
+    "react",
+    "nodejs"
+  ],
   "author": "Grupo 5",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^8.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.11"
   }
 }
