@@ -11,7 +11,7 @@ function Home() {
         const u = authService.getCurrentUser();
         setUser(u);
     }, []);
-
+    
     if (!user) {
         return (
             <Container className="home-container" style={{ textAlign: 'center' }}>
