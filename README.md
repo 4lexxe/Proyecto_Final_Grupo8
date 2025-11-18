@@ -45,6 +45,3 @@ npm run dev
 
 Notas rápidas
 - Si `npm install` ya instala paquetes como `express`, `cors`, `dotenv` y `mongoose`, no necesitas instalarlos manualmente. Si faltan, instálalos con: `npm install express cors dotenv mongoose`.
-- Añade un `env.example` si quieres facilitar la configuración a otros.
-
-¿Quieres que añada un `env.example` y verifique los `scripts` en los `package.json` (raíz y `client`)?
